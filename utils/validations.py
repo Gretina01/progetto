@@ -8,25 +8,17 @@ def validate_latitude(latitude):
     """Function that validates the latitude. 
     The value entered must be a float or int and must be within the range.
     Otherwise, including if no value is provided, an exception is raised."""
-    try:
-        # If the latitude value is provided, check whether it is a float or int and that it is within range.
-        if latitude != "" and latitude != None:
-            if not isinstance(latitude, (int, float)):
-                raise TypeError(f"Is required a float or int value of latitude \
-                                it's provided {type(latitude)}")
-            if not abs(latitude) <= 90.0:
-                raise ValueError(f"The latitude value is not within a valid range. \
-                                 Valid values are between -90 and +90 degrees. The value provided is {latitude}")
-        # If the latitude value is not provided, an exception is raised.
-        else:
-            if latitude == "" or latitude == None:
-                raise TypeError(f"No value was provided.")
-    except TypeError as type:
-        print(f"The error is {type}")
-    except ValueError as value:
-        print(f"The error is: {value}")
-    except Exception as ex:
-        print(f"The error is {ex}")
+    if latitude != "" and latitude != None:
+        if not isinstance(latitude, (int, float)):
+            raise TypeError(f"Is required a float or int value of latitude \
+                            it's provided {type(latitude)}")
+        if not abs(latitude) <= 90.0:
+            raise ValueError(f"The latitude value is not within a valid range. \
+                             Valid values are between -90 and +90 degrees. The value provided is {latitude}")
+    # If the latitude value is not provided, an exception is raised.
+    else:
+        if latitude == "" or latitude == None:
+            raise TypeError(f"No value was provided.")
     
 # The validate_longitude function checks whether the longitude value inserted 
 # is within the range -180 and +180 degrees and whether it is a float or int. 
@@ -35,25 +27,19 @@ def validate_longitude(longitude):
     """Function that validates the longitude. 
     The value entered must be a float or int and must be within the range.
     Otherwise, including if no value is provided, an exception is raised."""
-    try:
-        # If the longitude value is provided, check whether it is a float or int and that it is within range.
-        if longitude != "" and longitude != None:
-            if not isinstance(longitude, (int, float)):
-                raise TypeError(f"Is required a float or int value of longitude \
-                                it's provided {type(longitude)}")
-            if not abs(longitude) <= 180.0:
-                raise ValueError(f"The longitude value is not within a valid range. \
-                                 Valid values are between -180 and +180 degrees. The value provided is {longitude}")
-        # If the longitude value is not provided, an exception is raised.
-        else:
-            if longitude == "" or longitude == None:
-                raise TypeError(f"No value was provided.")
-    except TypeError as type:
-        print(f"The error is {type}")
-    except ValueError as value:
-        print(f"The error is: {value}")
-    except Exception as ex:
-        print(f"The error is {ex}")
+    
+    # If the longitude value is provided, check whether it is a float or int and that it is within range.
+    if longitude != "" and longitude != None:
+        if not isinstance(longitude, (int, float)):
+            raise TypeError(f"Is required a float or int value of longitude \
+                            it's provided {type(longitude)}")
+        if not abs(longitude) <= 180.0:
+            raise ValueError(f"The longitude value is not within a valid range. \
+                             Valid values are between -180 and +180 degrees. The value provided is {longitude}")
+    # If the longitude value is not provided, an exception is raised.
+    else:
+        if longitude == "" or longitude == None:
+            raise TypeError(f"No value was provided.")
 
 # The validate_name function validates whether the name entered is a string.
 def validate_name(name):

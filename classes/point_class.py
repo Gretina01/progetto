@@ -19,11 +19,25 @@ class Point():
     # The set method allows to set the value of the latitude attribute.
     def set_latitude(self, latitude):
         """Setting latitude private field."""
-        self._lat = validate_latitude(latitude)
+        try:
+            validate_latitude(latitude)
+        except Exception as e:
+            print(f"Cannot setted the latidue because there was an error {e}")
+        else:
+            self._lat = latitude
+            print(f"The latitude was ok and successfully setted")
+        
     # The set method allows to set the value of the longitude attribute.
     def set_longitude(self, longitude):
         """Setting longitude private field."""
-        self._lon = validate_longitude(longitude)
+        try:
+            validate_longitude(longitude)
+        except Exception as e:
+            print(f"Cannot setted the longitude because there was an error {e}")
+        else:
+            self._lon = longitude
+            print(f"The longitude was ok and successfully setted")
+
     # The get method return the value of the latitude attribute
     def get_latitude(self):
         """Getter for latitude private field."""
