@@ -7,9 +7,9 @@ class Point():
     # The __init__ method initializes the attributes of an object.
     def __init__(self, latitude: (float, int) = "", longitude: (float, int) = ""):
         """Constructor for point class"""
-        # Verify that both values ​​are given: latitude and longitude.
+        # Verify that both values are given: latitude and longitude.
         try:
-            if latitude == "" or latitude == None or longitude == "" or longitude == None:
+            if latitude == "" or latitude is None or longitude == "" or longitude is None:
                 raise ValueError("Only one coordinate is given. To define a point, \
                                  both latitude and longitude are needed")
         except ValueError as value:
@@ -21,23 +21,23 @@ class Point():
         """Setting latitude private field."""
         try:
             validate_latitude(latitude)
-        except Exception as e:
+        except ValueError as e:
+            print(f"Cannot setted the latidue because there was an error {e}")
+        except TypeError as e:
             print(f"Cannot setted the latidue because there was an error {e}")
         else:
             self._lat = latitude
-            print(f"The latitude was ok and successfully setted")
-        
     # The set method allows to set the value of the longitude attribute.
     def set_longitude(self, longitude):
         """Setting longitude private field."""
         try:
             validate_longitude(longitude)
-        except Exception as e:
-            print(f"Cannot setted the longitude because there was an error {e}")
+        except ValueError as e:
+            print(f"Cannot setted the latidue because there was an error {e}")
+        except TypeError as e:
+            print(f"Cannot setted the latidue because there was an error {e}")
         else:
             self._lon = longitude
-            print(f"The longitude was ok and successfully setted")
-
     # The get method return the value of the latitude attribute
     def get_latitude(self):
         """Getter for latitude private field."""

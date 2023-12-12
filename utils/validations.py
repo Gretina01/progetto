@@ -17,8 +17,7 @@ def validate_latitude(latitude):
                              Valid values are between -90 and +90 degrees. The value provided is {latitude}")
     # If the latitude value is not provided, an exception is raised.
     else:
-        if latitude == "" or latitude == None:
-            raise TypeError(f"No value was provided.")
+        raise ValueError(f"No value was provided.")
     
 # The validate_longitude function checks whether the longitude value inserted 
 # is within the range -180 and +180 degrees and whether it is a float or int. 
@@ -38,17 +37,22 @@ def validate_longitude(longitude):
                              Valid values are between -180 and +180 degrees. The value provided is {longitude}")
     # If the longitude value is not provided, an exception is raised.
     else:
-        if longitude == "" or longitude == None:
-            raise TypeError(f"No value was provided.")
+        raise ValueError(f"No value was provided.")
 
 # The validate_name function validates whether the name entered is a string.
 def validate_name(name):
-    if not isinstance(name, str):
-        raise TypeError(f"Is required a string \
-                                it's provided {type(name)}")
+    if name != "" and name != None:
+        if not isinstance(name, str):
+            raise TypeError(f"Is required a string \
+                                    it's provided {type(name)}")
+    else:
+        raise ValueError(f"No value was provided.")
 
 # The validate_spaces function validates whether the spaces entered is a int.
 def validate_spaces(spaces):
-    if not isinstance(spaces, int):
-        raise TypeError(f"Is required a int value of parking spaces \
-                                it's provided {type(spaces)}")
+    if spaces != "" and spaces != None:
+        if not isinstance(spaces, int):
+            raise TypeError(f"Is required a int value of parking spaces \
+                                    it's provided {type(spaces)}")
+    else:
+        raise ValueError(f"No value was provided.")
