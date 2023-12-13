@@ -1,0 +1,1 @@
+https://s3.amazonaws.com/vrai.univpm/FI/2023/12/disponibilita-parcheggi-storico.geojson

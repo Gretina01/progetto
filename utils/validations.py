@@ -1,6 +1,8 @@
 """This module contains all the functions that must be validated. 
 The functions in which the user enters the value are validated"""
 
+import datetime
+
 # The validate_latitude function checks whether the latitude value inserted 
 # is within the range -90 and +90 degrees and whether it is a float or int. 
 # Also handles the empty string or None value condition.
@@ -56,3 +58,30 @@ def validate_spaces(spaces):
                                     it's provided {type(spaces)}")
     else:
         raise ValueError(f"No value was provided.")
+
+
+def validate_spaces(spaces, total_spaces):
+     total_spaces = len()
+     if spaces < 0 and spaces > total_spaces:
+          raise ValueError("......")
+def validate_datetime(datetime):
+
+
+
+# Prova a convertire la stringa in un oggetto datetime
+        datetime_obj = datetime.strptime(input_string, "%Y-%m-%d")
+        
+        # Verifica che il giorno, mese e anno siano nei range desiderati
+        anno_valido = 1900 <= datetime_obj.year <= 2100
+        mese_valido = 1 <= datetime_obj.month <= 12
+        giorno_valido = 1 <= datetime_obj.day <= 31
+try:
+            #converto data e ora
+            data_ora = datetime.strptime(data_ora, "%Y-%m-%d %H:%M:%S+%z")
+        except ValueError:
+            raise ValueError("Formato data/ora non valido.")
+
+        if posti_occupati < 0 or posti_occupati > self.posti_totali:
+            raise ValueError("Il numero di posti occupati deve essere compreso tra 0 e la capienza massima del parcheggio.")
+
+        self.osservazioni.append({"data_ora": data_ora, "posti_occupati": posti_occupati})

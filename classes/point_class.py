@@ -1,6 +1,6 @@
 """In this module there is a class that manages the coordinates of the parking lots in Bologna."""
 
-from utils.validations import validate_latitude, validate_longitude
+from utils.validations import validate_latitude, validate_longitude # Python file containing function validation
 
 class Point():
     """Definition of a class to manage latitude and longitude"""

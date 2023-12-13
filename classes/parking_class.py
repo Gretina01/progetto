@@ -2,7 +2,7 @@
 defining the name, spaces and coordinates"""
 
 from classes.point_class import Point
-from utils.validations import validate_name, validate_spaces
+from utils.validations import validate_name, validate_spaces # Python file containing function validation
 from classes.detection_class import Detection
 import matplotlib.pyplot as plt
 
