@@ -2,7 +2,7 @@
 defining the name, spaces and coordinates"""
 
 from classes.point_class import Point
-from utils.validations import validate_name, validate_spaces # Python file containing function validation
+from utils.validations import validate_name, validate_spaces
 from classes.detection_class import Detection
 import matplotlib.pyplot as plt
 
@@ -10,11 +10,12 @@ class Parking(Point):
     """Definition of a class to manage name, spaces, latitude and longitude of a parking."""
     # The __init__ method initializes the attributes of an object.
     def __init__(self, latitude: (float, int) = "", longitude: (float, int) = "", \
-                 parking_name: str = "", parking_guid: str = ""):
+                 parking_name: str = "", parking_guid: str = "", total_spaces: int = ""):
         """Constructor for point class"""
         super().__init__(latitude, longitude)
         self.set_name(parking_name)
         self.set_parking_guid(parking_guid)
+        self.set_total_spaces(total_spaces)
         self._detections_list = []
     # The set method allows to set the name of parking attribute.
     def set_name(self, parking_name):
@@ -28,24 +29,28 @@ class Parking(Point):
         else:
             self._name = parking_name
     # The set method allows to set the spaces of parking attribute.
-    def set_spaces(self, parking_spaces):
-        """"Setting parking spaces private field."""
-        try:
-            validate_spaces(parking_spaces)
-        except ValueError as e:
-            print(f"Cannot setted the name because there was an error {e}")
-        except TypeError as e:
-            print(f"Cannot setted the name because there was an error {e}")
-        else:
-            self._spaces = parking_spaces
+    #def set_spaces(self, parking_spaces):
+    #    """"Setting parking spaces private field."""
+    #    try:
+    #        validate_spaces(parking_spaces)
+    #    except ValueError as e:
+    #        print(f"Cannot setted the name because there was an error {e}")
+    #    except TypeError as e:
+    #        print(f"Cannot setted the name because there was an error {e}")
+    #    else:
+    #        self._spaces = parking_spaces
     def set_parking_guid(self, parking_guid):
         self._parking_guid = parking_guid
+    def set_total_spaces(self, total_spaces):
+        self._total_spaces = total_spaces
     # The get method return the name attribute
     def get_name(self):
         """Getter for parking name private field."""
         return self._name
     def get_parking_guid(self):
         return self._parking_guid
+    def get_total_spaces(self):
+        return self._total_spaces
     # Add a new Detection to this parking
     def add_detection(self, detection : Detection):
         self._detections_list.append(detection)
