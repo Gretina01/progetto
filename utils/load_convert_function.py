@@ -47,6 +47,6 @@ def generate_parks_list(dictionary:dict):
                     print(value)
                 else:
                     park.add_detection((datetime.datetime.fromtimestamp(elem["properties"]\
-                                                                        ["data"]).strftime("%Y-%m-%d %H:%M:%S+%z"),
+                                                                        ["data"]).strftime("%Y-%m-%d %H:%M:%S"),
                                                                         elem["properties"]["posti_occupati"]))
     return parks_list

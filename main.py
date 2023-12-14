@@ -28,7 +28,7 @@ def main():
 
     parks_list = generate_parks_list(dictionary)
     #print(parks_list[0].get_detections_list())
-    plot_free_places(9,parks_list[0])
+    plot_free_places(10,parks_list[0])
 
    
     """with open("data.csv", "w") as my_file:

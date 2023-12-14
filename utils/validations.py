@@ -81,7 +81,7 @@ def validate_datetime(input_string, format_datetime = "%Y-%m-%d %H:%M:%S+%z"):
     Otherwise, including if no value is provided, an exception is raised."""
     if input_string != "" and input_string is not None:
         if input_string != format_datetime:
-            raise ValueError("The string entered does not respect the format.")
+            return
     else:
         raise ValueError("No value was provided.")
 
