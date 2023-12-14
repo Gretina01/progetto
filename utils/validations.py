@@ -1,6 +1,9 @@
 """This module contains all the functions that must be validated. 
 The functions in which the user enters the value are validated"""
 
+from datetime import datetime
+from utils.custom_exception import InvalidFormatImage
+
 # The validate_latitude function checks whether the latitude value inserted
 # is within the range -90 and +90 degrees and whether it is a float or int.
 # Also handles the empty string or None value condition.
@@ -66,22 +69,42 @@ def validate_spaces(spaces, total_spaces):
         if not isinstance(spaces, (int,float)):
             raise TypeError(f"Is required a int value of parking spaces \
                                     it's provided {type(spaces)}")
-        else:
-            if spaces < 0 and spaces > total_spaces:
-                raise ValueError("""Invalid value of spaces compared to total spaces. \
+        if 0 > spaces > total_spaces:
+            raise ValueError("""Invalid value of spaces compared to total spaces. \
                                     The value of occuped spaces must be between 0 and \
                                     the maximum capacity of the parking.""")
     else:
         raise ValueError("No value was provided.")
 
 # The validate_datetime function validates if the format of the date and time entered is correct.
-def validate_datetime(input_string, format_datetime = "%Y-%m-%d %H:%M:%S+%z"):
+def validate_datetime(datetime_string, format_datetime = "%Y-%m-%d %H:%M:%S+%z"):
     """Function that validates the date and time.
     The value entered must respect the format.
     Otherwise, including if no value is provided, an exception is raised."""
-    if input_string != "" and input_string is not None:
-        if input_string != format_datetime:
-            return
+    if datetime_string != "" and datetime_string is not None:
+        # Try to convert the string to a datetime object using the specified format.
+        datetime_string_input = datetime.strptime(datetime_string, format_datetime)
+        # Check if the input string has the same format.
+        if datetime_string_input.strftime(format_datetime) != datetime_string:
+            raise ValueError("The string entered does not respect the format.")
+        # Check if the year is within range 0001 and 9999.
+        if 1 > datetime_string_input.year > 9999:
+            raise ValueError("The year value is not within range.")
+        # Check if the month is within range 01 and 12.
+        if 1 > datetime_string_input.month > 12:
+            raise ValueError("The month value is not within range.")
+        # Check if the day is within range 01 and 31.
+        if 1 > datetime_string_input.day > 31:
+            raise ValueError("The day value is not within range.")
+        # Check if the hour is within range 00 and 23.
+        if 00 > datetime_string_input.hour > 23:
+            raise ValueError("The hour value is not within range.")
+        # Check if the minute is within range 00 and 59.
+        if 00 > datetime_string_input.minute > 59:
+            raise ValueError("The minute value is not within range.")
+        # Check if the second is within range 00 and 59.
+        if 00 > datetime_string_input.second > 59:
+            raise ValueError("The second value is not within range.")
     else:
         raise ValueError("No value was provided.")
 
@@ -90,11 +113,9 @@ def validate_format_image(file_name, format_image, image):
     """Function that validates the format of an image.
     The format supported are jpg, jpeg, png, svg, pdf."""
     supported_format_image = ['jpg', 'jpeg', 'png', 'svg', 'pdf']
-
     if format_image.lower() not in supported_format_image:
-        raise TypeError(f"{format_image} is an unsupported format. The formats allowed \
+        raise InvalidFormatImage(f"{format_image} is an unsupported format. The formats allowed \
                         are: jpg, jpeg, png, svg, pdf.")
-
     if format_image.lower() == 'jpg' or format_image.lower() == 'jpeg':
         image.save(f"{file_name}.jpg", "JPEG")
     elif format_image.lower() == 'png':
