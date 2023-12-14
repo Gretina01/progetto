@@ -2,12 +2,14 @@
 
 import unittest             # Library used to test functions.
                             # It provides a rich set of tools for constructing and running tests.
-from utils.validations import validate_latitude, validate_longitude, validate_name, validate_spaces, validate_datetime, validate_format_image   # Python file from which import the classes to test
+# Python file from which import the classes to test
+from utils.validations import validate_latitude, validate_longitude, validate_name, \
+                                validate_spaces, validate_datetime, validate_format_image
 
 # Class that test validations function.
 class ValidationTest(unittest.TestCase):
     """Define a test class for validations function. """
-    # Define a function that tesy the validate_latitude function.
+    # Define a function that test the validate_latitude function.
     def test_validate_latitude(self):
         """Test function for validate latitude."""
         self.assertTrue(validate_latitude(43.1))
