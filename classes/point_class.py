@@ -1,7 +1,9 @@
 """In this module there is a class that manages the coordinates of the parking lots in Bologna."""
 
-from utils.validations import validate_latitude, validate_longitude # Python file containing function validation
+# Import a python file containing function validation
+from utils.validations import validate_latitude, validate_longitude
 
+# Class to define a point
 class Point():
     """Definition of a class to manage latitude and longitude"""
     # The __init__ method initializes the attributes of an object.
@@ -22,9 +24,9 @@ class Point():
         try:
             validate_latitude(latitude)
         except ValueError as e:
-            print(f"Cannot setted the latidue because there was an error {e}")
+            print(f"Cannot setted the latitude because there was an error {e}")
         except TypeError as e:
-            print(f"Cannot setted the latidue because there was an error {e}")
+            print(f"Cannot setted the latitude because there was an error {e}")
         else:
             self._lat = latitude
     # The set method allows to set the value of the longitude attribute.

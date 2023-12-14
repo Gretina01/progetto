@@ -1,40 +1,42 @@
-"""""""""
-import json
-import datetime
+""""""
+from utils.load_convert_function import get_data_from_url,get_data_from_local, generate_parks_list
+from utils.plot_function import plot_free_places
 
 def main():
-    """"""
-    while True:
-        bologna_parking = input("percorso ????")
-        try:
-            with open(bologna_parking) as my_file:
-                my_data = json.load(my_file)
+    """Function that provides information on parking in Bologna"""
+    dictionary = None
+    while dictionary is None:
+        user_choice = input("Do you want to open a dataset from online or local? ")
+        # Code to open dataset from url (online)
+        if user_choice.lower() == 'online' or user_choice.lower() =="o":
+            print("You have chosen to open an online dataset.")
+            try:
+                get_data_from_url(input("Input url: "))
                 break
-        except Exception as ex:
-            print(f"we got an error. {ex}")
+            except ValueError as value:
+                print (f"There is an error: {value}")
+        # Code to open dataset from file (local)
+        elif user_choice.lower() == 'local' or user_choice.lower() =="l":
+            print("You have chosen to open an offline dataset.")
+            try:
+                get_data_from_local(input("Input file path: "))
+                break
+            except ValueError as value:
+                print (f"There is an error: {value}")
+        # If the user choice is not valid, an error is raised.
+        else:
+            print("Invalid choice. Please enter 'online' or 'local'.")
+    print("Dictionary loaded successfully.")
 
-    
-if __name__ == "__main__":
-    main()"""
-from utils.validations import validate_latitude
-from classes.point_class import Point
-from utils.load_function import *
+    parks_list = generate_parks_list(dict)
+    #print(parks_list[0].get_detections_list())
+    plot_free_places(9,parks_list[0])
 
-def main():
-   #dictionary = load_parks_dict("https://s3.amazonaws.com/vrai.univpm/FI/2023/12/disponibilita-parcheggi-storico.geojson")
-    my_path = input("fornisci il percorso...")
-    while True:
-        try:
-            load_parking_dict(my_path)
-            break
-        except Exception as ex:
-            print (f"we got an error: {ex}")
-    
-    #parks_list = generate_parks_list(dictionary)
-
-    #parks_list[0].plot_free_places()
-
-
+   
+    """with open("data.csv", "w") as my_file:
+        #salvataggio dell'heather...
+        my_file.write("lat;lon\n")
+        my_file.write(f"{my_lat};{my_lon}\n")"""
 
 if __name__ == "__main__":
     main()
