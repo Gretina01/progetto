@@ -52,6 +52,8 @@ class Parking(Point):
         return self._parking_guid
     def get_total_spaces(self):
         return self._total_spaces
+    def get_spaces(self):
+        return self._spaces
     # Add a new Detection to this parking
     def add_detection(self, detection):
         self._detections_list.append(detection)
