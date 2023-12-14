@@ -5,7 +5,6 @@ defining the name, spaces and coordinates"""
 from classes.point_class import Point
 # Import a python file containing function validation
 from utils.validations import validate_name, validate_spaces
-from classes.detection_class import Detection
 
 # Class to define a parking. Inherits from the point class.
 class Parking(Point):
@@ -54,7 +53,7 @@ class Parking(Point):
     def get_total_spaces(self):
         return self._total_spaces
     # Add a new Detection to this parking
-    def add_detection(self, detection : Detection):
+    def add_detection(self, detection):
         self._detections_list.append(detection)
     # Get the list of all detectons for this parking:
     def get_detections_list(self):

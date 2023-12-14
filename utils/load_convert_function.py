@@ -34,8 +34,8 @@ def generate_parks_list(dictionary:dict):
             lat = park["geometry"]["coordinates"][0]
             lon = park["geometry"]["coordinates"][1]
             name = park["properties"]["parcheggio"]
-            #total_spaces = park["properties"]["posti_totali"]
-            parks_list.append(Parking(lat, lon, name, guid))
+            total_spaces = park["properties"]["posti_totali"]
+            parks_list.append(Parking(lat, lon, name, guid, total_spaces))
 
     for park in parks_list:
         for elem in dictionary['features']:

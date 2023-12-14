@@ -10,17 +10,15 @@ def main():
         # Code to open dataset from url (online)
         if user_choice.lower() == 'online' or user_choice.lower() =="o":
             print("You have chosen to open an online dataset.")
-            try:
-                get_data_from_url(input("Input url: "))
-                break
+            try:  
+                dictionary = get_data_from_url(input("Input url: "))
             except ValueError as value:
                 print (f"There is an error: {value}")
         # Code to open dataset from file (local)
         elif user_choice.lower() == 'local' or user_choice.lower() =="l":
             print("You have chosen to open an offline dataset.")
             try:
-                get_data_from_local(input("Input file path: "))
-                break
+                dictionary = get_data_from_local(input("Input file path: "))
             except ValueError as value:
                 print (f"There is an error: {value}")
         # If the user choice is not valid, an error is raised.
@@ -28,7 +26,7 @@ def main():
             print("Invalid choice. Please enter 'online' or 'local'.")
     print("Dictionary loaded successfully.")
 
-    parks_list = generate_parks_list(dict)
+    parks_list = generate_parks_list(dictionary)
     #print(parks_list[0].get_detections_list())
     plot_free_places(9,parks_list[0])
 
