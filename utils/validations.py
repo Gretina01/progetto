@@ -1,6 +1,8 @@
 """This module contains all the functions that must be validated. 
 The functions in which the user enters the value are validated"""
 
+from utils.custom_exception import InvalidFormatImage
+
 # The validate_latitude function checks whether the latitude value inserted
 # is within the range -90 and +90 degrees and whether it is a float or int.
 # Also handles the empty string or None value condition.
@@ -92,7 +94,7 @@ def validate_format_image(file_name, format_image, image):
     supported_format_image = ['jpg', 'jpeg', 'png', 'svg', 'pdf']
 
     if format_image.lower() not in supported_format_image:
-        raise TypeError(f"{format_image} is an unsupported format. The formats allowed \
+        raise InvalidFormatImage(f"{format_image} is an unsupported format. The formats allowed \
                         are: jpg, jpeg, png, svg, pdf.")
 
     if format_image.lower() == 'jpg' or format_image.lower() == 'jpeg':
