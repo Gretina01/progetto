@@ -87,16 +87,22 @@ def validate_datetime(datetime_string, format_datetime = "%Y-%m-%d %H:%M:%S+%z")
         # Check if the input string has the same format.
         if datetime_string_input.strftime(format_datetime) != datetime_string:
             raise ValueError("The string entered does not respect the format.")
+        # Check if the year is within range 0001 and 9999.
         if 1 > datetime_string_input.year > 9999:
             raise ValueError("The year value is not within range.")
+        # Check if the month is within range 01 and 12.
         if 1 > datetime_string_input.month > 12:
             raise ValueError("The month value is not within range.")
+        # Check if the day is within range 01 and 31.
         if 1 > datetime_string_input.day > 31:
             raise ValueError("The day value is not within range.")
+        # Check if the hour is within range 00 and 23.
         if 00 > datetime_string_input.hour > 23:
             raise ValueError("The hour value is not within range.")
+        # Check if the minute is within range 00 and 59.
         if 00 > datetime_string_input.minute > 59:
             raise ValueError("The minute value is not within range.")
+        # Check if the second is within range 00 and 59.
         if 00 > datetime_string_input.second > 59:
             raise ValueError("The second value is not within range.")
     else:
