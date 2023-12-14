@@ -1,7 +1,6 @@
 """This module contains graphic functions."""
 
 import matplotlib.pyplot as plt
-from classes.detection_class import Detection
 import datetime
 from classes.parking_class import Parking
 
