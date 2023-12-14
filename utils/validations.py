@@ -68,9 +68,8 @@ def validate_spaces(spaces, total_spaces):
         if not isinstance(spaces, (int,float)):
             raise TypeError(f"Is required a int value of parking spaces \
                                     it's provided {type(spaces)}")
-        else:
-            if spaces < 0 and spaces > total_spaces:
-                raise ValueError("""Invalid value of spaces compared to total spaces. \
+        if 0 > spaces > total_spaces:
+            raise ValueError("""Invalid value of spaces compared to total spaces. \
                                     The value of occuped spaces must be between 0 and \
                                     the maximum capacity of the parking.""")
     else:
