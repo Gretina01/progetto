@@ -77,16 +77,48 @@ def validate_spaces(spaces, total_spaces):
         raise ValueError("No value was provided.")
 
 # The validate_datetime function validates if the format of the date and time entered is correct.
-def validate_datetime(datetime_string, format_datetime = "%Y-%m-%d %H:%M:%S+%z"):
+def validate_datetime(datetime_string, format_datetime = "%Y-%m-%d %H:%M:%S"):
     """Function that validates the date and time.
     The value entered must respect the format.
     Otherwise, including if no value is provided, an exception is raised."""
     if datetime_string != "" and datetime_string is not None:
-        # Try to convert the string to a datetime object using the specified format.
-        datetime_string_input = datetime.strptime(datetime_string, format_datetime)
-        # Check if the input string has the same format.
+        """# Try to convert the string to a datetime object using the specified format.
+        datetime_string_input = datetime.fromtimestamp(datetime_string)
+        if datetime_string_input != datetime_string_input.strftime(format_datetime):
+            raise ValueError("Non ci sto capendo un cazzo")"""
+        """# Presumendo che datetime_string sia nel formato di una stringa di timestamp
+        timestamp = float(datetime_string)
+        datetime_string_input = datetime.fromtimestamp(timestamp)
+        
+        # Formatta datetime_string_input usando il formato specificato
+        formatted_datetime_string_input = datetime_string_input.strftime(format_datetime)
+
+        # Confronta la stringa originale con la sua versione formattata
+        if datetime_string != formatted_datetime_string_input:
+            raise ValueError("Non ci sto capendo un cazzo")"""
+         # Converti la stringa in un oggetto datetime
+        datetime_input = datetime.fromtimestamp(float(datetime_string))
+
+        # Formatta l'oggetto datetime usando il formato specificato
+        formatted_datetime_input = datetime_input.strftime(format_datetime)
+
+        # Confronta la stringa originale con la sua versione formattata
+        if datetime_string != formatted_datetime_input:
+            raise ValueError("La stringa non corrisponde al formato desiderato")
+        
+    else:
+        raise ValueError("No value was provided.")
+    """  # Check if the input string has the same format.
         if datetime_string_input.strftime(format_datetime) != datetime_string:
             raise ValueError("The string entered does not respect the format.")
+        
+
+        dt_object = datetime.fromtimestamp(timestamp)
+        # Formatta l'oggetto datetime come una stringa nel formato desiderato
+        stringa_formattata = dt_object.strftime(formato)
+        return stringa_formattata
+    
+
         # Check if the year is within range 0001 and 9999.
         if 1 > datetime_string_input.year > 9999:
             raise ValueError("The year value is not within range.")
@@ -104,9 +136,7 @@ def validate_datetime(datetime_string, format_datetime = "%Y-%m-%d %H:%M:%S+%z")
             raise ValueError("The minute value is not within range.")
         # Check if the second is within range 00 and 59.
         if 00 > datetime_string_input.second > 59:
-            raise ValueError("The second value is not within range.")
-    else:
-        raise ValueError("No value was provided.")
+            raise ValueError("The second value is not within range.")"""
 
 # The validate_format_image function validated if the chosen format is within the supported formats.
 def validate_format_image(file_name, format_image, image):

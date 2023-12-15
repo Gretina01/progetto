@@ -1,5 +1,5 @@
 """"In this module there is a class that manages the parking lots in Bologna: 
-defining the name, spaces and coordinates"""
+defining the name, spaces and coordinates of a parking."""
 
 # Import a python file containing a point class
 from classes.point_class import Point

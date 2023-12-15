@@ -1,14 +1,16 @@
 """This module contains graphic functions."""
 
-import matplotlib.pyplot as plt
 import datetime
+import matplotlib.pyplot as plt # Library used to create plot.
 from classes.parking_class import Parking
 
-def plot_free_places(month:int,park:Parking):
-
-        mesi = [data.month for data in [datetime.datetime.strptime(coppia[0], "%Y-%m-%d %H:%M:%S") for coppia in park.get_detections_list()]]
+# Define a function that creates a bar graph based on the average number of free spaces
+# in % and the time slots in a month of your choice.
+def plot_free_places(month: int, parking: Parking):
+        """Function that create a plot for each month."""
+        month = [data.month for data in [datetime.datetime.strptime(coppia[0], "%Y-%m-%d %H:%M:%S") for coppia in parking.get_detections_list()]]
         # Selezioniamo le coppie del mese di dicembre
-        coppie_mese = [coppia for coppia, mese in zip(park.get_detections_list(), mesi) if mese == month]
+        coppie_mese = [coppia for coppia, mese in zip(parking.get_detections_list(), month) if mese == month]
         ore = [data.hour for data in [datetime.datetime.strptime(coppia[0], "%Y-%m-%d %H:%M:%S") for coppia in coppie_mese]]
 
         occupati_per_fasce_orarie = [[] for _ in range(24)]
@@ -21,12 +23,11 @@ def plot_free_places(month:int,park:Parking):
                 count = 0
                 sum = 0
                 for rilevazione in occupati_per_fasce_orarie[ora]:
-                        sum += (park.get_total_spaces() - rilevazione[1])
+                        sum += (parking.get_total_spaces() - rilevazione[1])
                         count += 1
                 avg = sum / count
                 #print (f" media è {avg} in percentuale è {(avg/park.get_total_spaces())*100} data da {count} rilevazioni \n")
-                media_posti_libera_ora.append((avg/park.get_total_spaces())*100)
-
+                media_posti_libera_ora.append((avg/parking.get_total_spaces())*100)
         
         fig = plt.figure(figsize = (10, 5))
         

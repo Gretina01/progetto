@@ -1,9 +1,9 @@
 """In this module there is a class that manages the coordinates of the parking lots in Bologna."""
 
-# Import a python file containing function validation
+# Import a python file containing validations function.
 from utils.validations import validate_latitude, validate_longitude
 
-# Class to define a point
+# Class to define a point.
 class Point():
     """Definition of a class to manage latitude and longitude"""
     # The __init__ method initializes the attributes of an object.

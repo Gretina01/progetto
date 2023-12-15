@@ -10,7 +10,7 @@ def main():
         # Code to open dataset from url (online)
         if user_choice.lower() == 'online' or user_choice.lower() =="o":
             print("You have chosen to open an online dataset.")
-            try:  
+            try:
                 dictionary = get_data_from_url(input("Input url: "))
             except ValueError as value:
                 print (f"There is an error: {value}")

@@ -56,19 +56,18 @@ class ValidationTest(unittest.TestCase):
     # Define a function that test the validate_datetime function.
     def test_validate_datetime(self):
         """Test function for validate datetime."""
-        actual_value = "2023-10-25 14:15:23+00:00"
-        self.assertTrue(validate_datetime(actual_value, "%Y-%m-%d %H:%M:%S+%z"))
-        actual_value_1 = "23-10-25 14:15:23+00:00"
-        self.assertFalse(validate_datetime(actual_value_1, "%Y-%m-%d %H:%M:%S+%z"))
+        actual_value = "2023-10-25 14:15:23"
+        self.assertTrue(validate_datetime(actual_value, "%Y-%m-%d %H:%M:%S"))
+        actual_value_1 = "23-10-25 14:15:23"
+        self.assertFalse(validate_datetime(actual_value_1, "%Y-%m-%d %H:%M:%S"))
         with self.assertRaises(ValueError):
             validate_datetime("")
         with self.assertRaises(ValueError):
             validate_datetime(None)
-    
+
     def test_validate_format_image(self):
         """Test function for validate format image"""
         self.assertTrue(validate_format_image("image", "jpeg", "image"))
-
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
