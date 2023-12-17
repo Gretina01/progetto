@@ -67,9 +67,9 @@ def validate_spaces(spaces, total_spaces):
     Otherwise, including if no value is provided, an exception is raised."""
     if spaces != "" and spaces is not None:
         if not isinstance(spaces, (int,float)):
-            raise TypeError(f"Is required a int value of parking spaces \
+            raise TypeError(f"Is required a int or float value of parking spaces \
                                     it's provided {type(spaces)}")
-        if 0 > spaces > total_spaces:
+        if not 0 <= spaces <= total_spaces:
             raise ValueError("""Invalid value of spaces compared to total spaces. \
                                     The value of occuped spaces must be between 0 and \
                                     the maximum capacity of the parking.""")
@@ -77,81 +77,81 @@ def validate_spaces(spaces, total_spaces):
         raise ValueError("No value was provided.")
 
 # The validate_datetime function validates if the format of the date and time entered is correct.
-def validate_datetime(datetime_string, format_datetime = "%Y-%m-%d %H:%M:%S"):
+def validate_datetime(datetime_obj, format_datetime = "%Y-%m-%d %H:%M:%S"):
     """Function that validates the date and time.
     The value entered must respect the format.
     Otherwise, including if no value is provided, an exception is raised."""
+    # Convert datetime_obj from int to datetime object
+    if isinstance(datetime_obj, int):
+        datetime_obj = datetime.fromtimestamp(datetime_obj)
+    # Convert the datetime object to a string.
+    datetime_string = datetime_obj.strftime(format_datetime)
     if datetime_string != "" and datetime_string is not None:
-        """# Try to convert the string to a datetime object using the specified format.
-        datetime_string_input = datetime.fromtimestamp(datetime_string)
-        if datetime_string_input != datetime_string_input.strftime(format_datetime):
-            raise ValueError("Non ci sto capendo un cazzo")"""
-        """# Presumendo che datetime_string sia nel formato di una stringa di timestamp
-        timestamp = float(datetime_string)
-        datetime_string_input = datetime.fromtimestamp(timestamp)
-        
-        # Formatta datetime_string_input usando il formato specificato
-        formatted_datetime_string_input = datetime_string_input.strftime(format_datetime)
-
-        # Confronta la stringa originale con la sua versione formattata
-        if datetime_string != formatted_datetime_string_input:
-            raise ValueError("Non ci sto capendo un cazzo")"""
-         # Converti la stringa in un oggetto datetime
-        datetime_input = datetime.fromtimestamp(float(datetime_string))
-
-        # Formatta l'oggetto datetime usando il formato specificato
-        formatted_datetime_input = datetime_input.strftime(format_datetime)
-
-        # Confronta la stringa originale con la sua versione formattata
-        if datetime_string != formatted_datetime_input:
-            raise ValueError("La stringa non corrisponde al formato desiderato")
-        
-    else:
-        raise ValueError("No value was provided.")
-    """  # Check if the input string has the same format.
-        if datetime_string_input.strftime(format_datetime) != datetime_string:
-            raise ValueError("The string entered does not respect the format.")
-        
-
-        dt_object = datetime.fromtimestamp(timestamp)
-        # Formatta l'oggetto datetime come una stringa nel formato desiderato
-        stringa_formattata = dt_object.strftime(formato)
-        return stringa_formattata
-    
-
-        # Check if the year is within range 0001 and 9999.
-        if 1 > datetime_string_input.year > 9999:
+        try:
+            datetime.strptime(datetime_string, format_datetime)
+        except ValueError:
+            print(f"Invalid datetime format. It should be in the format '{format_datetime}'")
+        if 1 > datetime_obj.year > 9999:
             raise ValueError("The year value is not within range.")
         # Check if the month is within range 01 and 12.
-        if 1 > datetime_string_input.month > 12:
+        if 1 > datetime_obj.month > 12:
             raise ValueError("The month value is not within range.")
         # Check if the day is within range 01 and 31.
-        if 1 > datetime_string_input.day > 31:
+        if 1 > datetime_obj.day > 31:
             raise ValueError("The day value is not within range.")
         # Check if the hour is within range 00 and 23.
-        if 00 > datetime_string_input.hour > 23:
+        if 00 > datetime_obj.hour > 23:
             raise ValueError("The hour value is not within range.")
         # Check if the minute is within range 00 and 59.
-        if 00 > datetime_string_input.minute > 59:
+        if 00 > datetime_obj.minute > 59:
             raise ValueError("The minute value is not within range.")
         # Check if the second is within range 00 and 59.
-        if 00 > datetime_string_input.second > 59:
-            raise ValueError("The second value is not within range.")"""
+        if 00 > datetime_obj.second > 59:
+            raise ValueError("The second value is not within range.")
+    else:
+        raise ValueError("No value was provided.")
+
+# The validate_month function validates if month entered is within the range.
+def validate_month(month):
+    """Function that validates the month.
+    The value entered must be within range.
+    Otherwise, including if no value is provided, an exception is raised."""
+    if month != "" and month is not None:
+        if not isinstance(month, (int)):
+            raise TypeError(f"Is required a int value of month \
+                                it's provided {type(month)}")
+        if not 0 <= month <= 12:
+            raise ValueError("The month entered must be within the range 0 - 12.")
+    else:
+        raise ValueError("No value was provided.")
+
+# The validate_time function validates if hour and minutes entered is within the range.
+def validate_time(hour, minutes):
+    """Function that validates the time.
+    The value entered must be within range.
+    Otherwise, including if no value is provided, an exception is raised."""
+    if hour != "" and hour is not None:
+        if not isinstance(hour, (int)):
+            raise TypeError(f"Is required a int value of hour \
+                                it's provided {type(hour)}")
+        if not 0 <= hour <= 24:
+            raise ValueError("The hour entered must be within the range 0 - 24.")
+    else:
+        raise ValueError("No value was provided.")
+    if minutes != "" and minutes is not None:
+        if not isinstance(minutes, (int)):
+            raise TypeError(f"Is required a int value of minutes \
+                                it's provided {type(minutes)}")
+        if not 0 <= minutes <= 59:
+            raise ValueError("The minutes entered must be within the range 0 - 59.")
+    else:
+        raise ValueError("No value was provided.")
 
 # The validate_format_image function validated if the chosen format is within the supported formats.
-def validate_format_image(file_name, format_image, image):
+def validate_format_image(format_image):
     """Function that validates the format of an image.
     The format supported are jpg, jpeg, png, svg, pdf."""
     supported_format_image = ['jpg', 'jpeg', 'png', 'svg', 'pdf']
     if format_image.lower() not in supported_format_image:
         raise InvalidFormatImage(f"{format_image} is an unsupported format. The formats allowed \
                         are: jpg, jpeg, png, svg, pdf.")
-    if format_image.lower() == 'jpg' or format_image.lower() == 'jpeg':
-        image.save(f"{file_name}.jpg", "JPEG")
-    elif format_image.lower() == 'png':
-        image.save(f"{file_name}.png", "PNG")
-    elif format_image.lower() == 'svg':
-        with open(f"{file_name}.svg", "w") as f:
-            f.write(image.tostring())
-    elif format_image.lower() == 'pdf':
-        image.save(f"{file_name}.pdf", "PDF", resolution=100.0)

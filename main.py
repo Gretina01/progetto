@@ -35,6 +35,18 @@ def main():
         #salvataggio dell'heather...
         my_file.write("lat;lon\n")
         my_file.write(f"{my_lat};{my_lon}\n")"""
+    
+    
+
+    """if format_image.lower() == 'jpg' or format_image.lower() == 'jpeg':
+        image.save(f"{file_name}.jpg", "JPEG")
+    elif format_image.lower() == 'png':
+        image.save(f"{file_name}.png", "PNG")
+    elif format_image.lower() == 'svg':
+        with open(f"{file_name}.svg", "w") as f:
+            f.write(image.tostring())
+    elif format_image.lower() == 'pdf':
+        image.save(f"{file_name}.pdf", "PDF", resolution=100.0)"""
 
 if __name__ == "__main__":
     main()

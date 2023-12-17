@@ -71,4 +71,4 @@ class Parking(Point):
         """Representation of the object."""
         return f"[Parking name ={self.get_name()} | Parking guid = {self.get_parking_guid()}\
            | Latitude={self.get_latitude()} | Longitude={self.get_longitude()} \
-            | Number of detections={len(self.get_detections_list())} ]"
+            | Number of detections={len(self.get_detections_list())}]"
