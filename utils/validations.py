@@ -147,3 +147,18 @@ def validate_format_image(format_image):
     if format_image.lower() not in supported_format_image:
         raise InvalidFormatImage(f"{format_image} is an unsupported format. The formats allowed \
                         are: jpg, jpeg, png, svg, pdf.")
+
+def validate_free_spaces_by_time_slot(avg_free_spaces_by_time_slot):
+    if not isinstance(avg_free_spaces_by_time_slot, list) or len(avg_free_spaces_by_time_slot) != 24:
+                raise ValueError("Input must be a list of 24 elements")
+    else:
+        count_zero = 0
+        for i in range(24):
+            if avg_free_spaces_by_time_slot[i] == 0 or avg_free_spaces_by_time_slot[i] == 0.0:
+                count_zero += 1
+            if not isinstance(avg_free_spaces_by_time_slot[i], (float)):
+                raise TypeError(f"Invalid type at index {i}")
+            if not 0 <= avg_free_spaces_by_time_slot[i] <= 100:
+                raise ValueError(f"Invalid value at index {i}")
+        if count_zero == 24:
+            raise ValueError("Ci sono troppe fasce orarie con mancanza di dati")

@@ -29,21 +29,19 @@ class Parking(Point):
             print(f"Cannot setted the name because there was an error {e}")
         else:
             self._name = parking_name
-    # The set method allows to set the spaces of parking attribute.
-    def set_spaces(self, parking_spaces, total_spaces):
-        """"Setting parking spaces private field."""
+    # The set method allows to set the parking guid attribute.
+    def set_parking_guid(self, parking_guid):
+        self._parking_guid = parking_guid
+    # The set method allows to set the total spaces attribute.
+    def set_total_spaces(self, total_spaces):
         try:
-            validate_spaces(parking_spaces, total_spaces)
+            validate_total_spaces(total_spaces)
         except ValueError as e:
             print(f"Cannot setted the name because there was an error {e}")
         except TypeError as e:
             print(f"Cannot setted the name because there was an error {e}")
         else:
-            self._spaces = parking_spaces
-    def set_parking_guid(self, parking_guid):
-        self._parking_guid = parking_guid
-    def set_total_spaces(self, total_spaces):
-        self._total_spaces = total_spaces
+            self._total_spaces = total_spaces
     # The get method return the name attribute
     def get_name(self):
         """Getter for parking name private field."""

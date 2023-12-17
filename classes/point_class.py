@@ -4,6 +4,7 @@
 from math import radians, cos, sin, asin, sqrt
 # Import a python file containing validations function.
 from utils.validations import validate_latitude, validate_longitude
+from classes.parking_class import Parking
 
 # The constant of earth radius in meters is defined to be used in the distance between two points.
 EARTH_RADIUS = 6371000.0
@@ -60,11 +61,12 @@ class Point():
 
     # Define a function that returns the value of the distance between two points
     # using the Haversine formula.
-    def get_distance_between_two_points(self, obj):
+    @staticmethod
+    def get_distance_between_two_points(obj, park: Parking):
         """Class helper method, returns the distance between two points."""
         if isinstance(obj, Point):
-            lat_parking = self.get_latitude()
-            lon_parking = self.get_longitude()
+            lat_parking = park.get_latitude()
+            lon_parking = park.get_longitude()
             lat_user = obj.get_latitude()
             lon_user = obj.get_longitude()
             # Convert latitude and longitude from degrees to radians.

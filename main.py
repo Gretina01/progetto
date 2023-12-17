@@ -1,6 +1,8 @@
 """"""
 from utils.load_convert_function import get_data_from_url, get_data_from_local, generate_parks_list
-from utils.plot_function import plot_free_places
+from utils.plot_function import *
+from utils.export_function import export_csv
+
 
 def main():
     """Function that provides information on parking in Bologna"""
@@ -28,7 +30,21 @@ def main():
 
     parks_list = generate_parks_list(dictionary)
     #print(parks_list[0].get_detections_list())
-    plot_free_places(10,parks_list[0])
+    mese_scelto = input("Indica il mese di cui vuoi vedere la disponibilità dei parcheggi: ")
+    for i, park in enumerate(parks_list):
+        print(f"Scrivi {i} per il parcheggio {park.get_name()}")
+    park_choice = input("Scegli un parcheggio: ")
+    mese_scelto = int(mese_scelto)
+    park_choice = int(park_choice)
+    free_parks = generate_free_parks_in_hours(mese_scelto, parks_list[park_choice])
+    fig = generate_figure(free_parks, mese_scelto)
+    show_plot(fig)
+    img_output_name_file = input("Scegli il nome del file immagine: ")
+    img_format = input("Scegli il formato del file immagine: ")
+    save_plot(fig, img_output_name_file, img_format)
+    csv_output_name_file = input("Scegli il nome del file di CSV: ")
+    delimiter = input("Scegli il delimitatore del CSV: ")
+    export_csv(free_parks, csv_output_name_file, parks_list[park_choice], mese_scelto, delimiter)
 
     """#  Save file in a .csv
     filename = input("To save the results in a .csv file, choose the name: ")
