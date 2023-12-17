@@ -1,10 +1,7 @@
 """In this module there is a class that manages the coordinates of the parking lots in Bologna."""
 
-# Import math library to use radians, cos, sin, asin
-from math import radians, cos, sin, asin, sqrt
 # Import a python file containing validations function.
 from utils.validations import validate_latitude, validate_longitude
-from classes.parking_class import Parking
 
 # The constant of earth radius in meters is defined to be used in the distance between two points.
 EARTH_RADIUS = 6371000.0
@@ -58,28 +55,6 @@ class Point():
     def get_longitude(self):
         """Getter for longitude private field."""
         return self._lon
-
-    # Define a function that returns the value of the distance between two points
-    # using the Haversine formula.
-    @staticmethod
-    def get_distance_between_two_points(obj, park: Parking):
-        """Class helper method, returns the distance between two points."""
-        if isinstance(obj, Point):
-            lat_parking = park.get_latitude()
-            lon_parking = park.get_longitude()
-            lat_user = obj.get_latitude()
-            lon_user = obj.get_longitude()
-            # Convert latitude and longitude from degrees to radians.
-            lat_parking, lon_parking, lat_user, lon_user = map(radians, [lat_parking, lon_parking, \
-                                                                        lat_user, lon_user])
-            # Calculate the difference of latitude and longitude.
-            delta_lat = lat_user - lat_parking
-            delta_lon = lon_user - lon_parking
-            # Calculate the difference with Haversine formula.
-            a = sin(delta_lat/2)**2 + cos(lat_parking) * cos(lat_user) * sin(delta_lon/2)**2
-            c = 2 * asin(sqrt(a))
-            return EARTH_RADIUS * c
-        raise TypeError("The lat_user and lon_user pair are not type Point")
 
     # The __str__ method is responsible for returning a string representation of the object.
     def __str__(self):

@@ -1,10 +1,16 @@
 """This module contains the functions to load the dataset and to convert it into list."""
+
+# Json is a library that allows you to work with json and geojson files in Python.
 import json
-import datetime
+# The datetime module supplies classes to work with date and time. These classes provide a number
+# of functions to deal with dates, times, and time intervals.
+from datetime import datetime
+# The requests module allows to send HTTP requests using Python.
 import requests
+# File Python that contains parking class.
 from classes.parking_class import Parking
+# Import a python file containing validations function.
 from utils.validations import validate_spaces, validate_datetime
-from constants.months import Month
 
 # Definition of a function that manages the import of the dataset from url
 def get_data_from_url(url:str):
@@ -18,36 +24,36 @@ def get_data_from_url(url:str):
 # Definition of a function that manages the import of the dataset from file
 def get_data_from_local(my_path):
     """Get dataset offline, from file"""
-    with open(my_path) as my_file:
+    with open(my_path, encoding = "utf-8") as my_file:
         my_data = json.load(my_file)
         return my_data
 
-# Definition of a function that converts a dictionary into list
-def generate_parks_list(dictionary:dict):
+# Definition of a function that converts a dictionary into a list.
+def generate_parking_list(dictionary: dict):
     """Function that converts the dataset(dictionary) into a list, without repetitions."""
-    parks_list = []
+    parking_list = []
     surveyed_guids = []
 
-    for park in dictionary['features']:
-        guid = park["properties"]["guid"]
+    for parking in dictionary['features']:
+        guid = parking["properties"]["guid"]
         if guid not in surveyed_guids:
             surveyed_guids.append(guid)
-            lat = park["geometry"]["coordinates"][0]
-            lon = park["geometry"]["coordinates"][1]
-            name = park["properties"]["parcheggio"]
-            total_spaces = park["properties"]["posti_totali"]
-            parks_list.append(Parking(lat, lon, name, guid, total_spaces))
+            lat = parking["geometry"]["coordinates"][0]
+            lon = parking["geometry"]["coordinates"][1]
+            name = parking["properties"]["parcheggio"]
+            total_spaces = parking["properties"]["posti_totali"]
+            parking_list.append(Parking(lat, lon, name, guid, total_spaces))
 
-    for park in parks_list:
+    for parking in parking_list:
         for elem in dictionary['features']:
-            if elem["properties"]["guid"] == park.get_parking_guid():
+            if elem["properties"]["guid"] == parking.get_parking_guid():
                 try:
-                    validate_spaces(elem["properties"]["posti_occupati"], park.get_total_spaces)
+                    validate_spaces(elem["properties"]["posti_occupati"], parking.get_total_spaces)
                     validate_datetime(elem["properties"]["data"])
                 except ValueError as value:
                     print(value)
                 else:
-                    park.add_detection((datetime.datetime.fromtimestamp(elem["properties"]\
-                                                                        ["data"]).strftime("%Y-%m-%d %H:%M:%S"),
-                                                                        elem["properties"]["posti_occupati"]))
-    return parks_list
+                    parking.add_detection((datetime.fromtimestamp(elem["properties"]["data"])\
+                                           .strftime("%Y-%m-%d %H:%M:%S"), elem\
+                                            ["properties"]["posti_occupati"]))
+    return parking_list

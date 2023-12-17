@@ -1,4 +1,5 @@
-"""This module is used to test class."""
+"""This module is used to test class.
+To run the tests put in debug configuration: module. The module name is test.class_test."""
 
 import unittest # Library used to test functions.
                 # It provides a rich set of tools for constructing and running tests.
@@ -13,16 +14,6 @@ class PointTestClass(unittest.TestCase):
         """Setup of test."""
         self._point = Point(43.0, 13.0)
 
-    # Define a function for test the latitude setter.
-    def test_set_latitude(self):
-        """Test function for latitide setter"""
-        self.assertEqual(self._point.get_latitude(), 43.0)
-
-    # Define a function for test the longitude setter.
-    def test_set_longitude(self):
-        """Test function for longitude setter."""
-        self.assertEqual(self._point.get_longitude(), 13.0)
-
     # Define a function for test the latitude getter.
     def test_get_latitude(self):
         """Test function for latitude getter."""
@@ -33,12 +24,6 @@ class PointTestClass(unittest.TestCase):
         """Test function for longitude getter."""
         self.assertEqual(self._point.get_longitude(), 13.0)
 
-    # Define a function for test get_distance_between_two_points funtion.
-    def test_get_distance_between_two_points(self):
-        """Test function for get_distance function."""
-        with self.assertRaises(TypeError):
-            self._point.get_distance_between_two_points("hello world")
-
 # Class that test parking class.
 class ParkingTestClass(unittest.TestCase):
     """Test class for parking class"""
@@ -47,17 +32,20 @@ class ParkingTestClass(unittest.TestCase):
         """Setup of test."""
         self._point = Parking(50.5, 29.0, "Riva Reno", "87e4078d-36d2-4f1a-b088-92483e0cbf90", 470)
 
-    # Define a function for test the name setter.
-    def test_set_name(self):
-        """Test function for name setter"""
+    # Define a function for test the name getter.
+    def test_get_name(self):
+        """Test function for name getter."""
         self.assertEqual(self._point.get_name(), "Riva Reno")
 
-    # Define a function for test the spaces setter.
-    """def test_set_spaces(self):
-        Test function for total spaces setter.
-        self.assertEqual(self._point.get_spaces(), 470)
-        with self.assertRaises(TypeError):
-            self._point.set_spaces("hello", 200)"""
+    # Define a funtion for test the parking guid getter.
+    def test_get_parking_guid(self):
+        """Test function for parking guid getter."""
+        self.assertEqual(self._point.get_parking_guid(), "87e4078d-36d2-4f1a-b088-92483e0cbf90")
+
+    # Define a function for test the total spaces getter.
+    def test_get_total_spaces(self):
+        """Test function for total spaces getter."""
+        self.assertEqual(self._point.get_total_spaces(), 470)
 
     print("All tests passed.")
 

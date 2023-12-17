@@ -1,7 +1,13 @@
 """This module contains all the functions that must be validated. 
 The functions in which the user enters the value are validated"""
 
-from datetime import datetime
+# The re built-in package can be used to check whether a string contains the
+# specified search pattern.
+import re
+# The datetime module supplies classes to work with date and time. These classes provide a number
+# of functions to deal with dates, times, and time intervals.
+from datetime import datetime, timezone
+# Python file from which import the custom exception for test the image format.
 from utils.custom_exception import InvalidFormatImage
 
 # The validate_latitude function checks whether the latitude value inserted
@@ -76,6 +82,41 @@ def validate_spaces(spaces, total_spaces):
     else:
         raise ValueError("No value was provided.")
 
+# The validate_total_spaces function validates whether the total spaces is a int.
+def validate_total_spaces(total_spaces):
+    """Function that validates the total spaces. 
+    The value entered must be a int.
+    Otherwise, including if no value is provided, an exception is raised."""
+    if total_spaces != "" and total_spaces is not None:
+        if not isinstance(total_spaces, int):
+            raise TypeError(f"Is required a int value of total parking spaces \
+                                    it's provided {type(total_spaces)}")
+    else:
+        raise ValueError("No value was provided.")
+
+# The validate_parking_guid function validates whether the parking guid is a string.
+def validate_parking_guid(parkig_guid):
+    """Function that validates the parking guid. 
+    The value entered must be a string.
+    Otherwise, including if no value is provided, an exception is raised."""
+    if parkig_guid != "" and parkig_guid is not None:
+        if not isinstance(parkig_guid, str):
+            raise TypeError(f"Is required a int value of parking guid \
+                                    it's provided {type(parkig_guid)}")
+    else:
+        raise ValueError("No value was provided.")
+
+
+"""tzinfo=ZoneInfo("America/Los_Angeles")
+
+def astimezone(self, tz):
+    if self.tzinfo is tz:
+        return self
+    # Convert self to UTC, and attach the new time zone object.
+    utc = (self - self.utcoffset()).replace(tzinfo=tz)
+    # Convert from UTC to tz's local time.
+    return tz.fromutc(utc)"""
+
 # The validate_datetime function validates if the format of the date and time entered is correct.
 def validate_datetime(datetime_obj, format_datetime = "%Y-%m-%d %H:%M:%S"):
     """Function that validates the date and time.
@@ -87,10 +128,8 @@ def validate_datetime(datetime_obj, format_datetime = "%Y-%m-%d %H:%M:%S"):
     # Convert the datetime object to a string.
     datetime_string = datetime_obj.strftime(format_datetime)
     if datetime_string != "" and datetime_string is not None:
-        try:
-            datetime.strptime(datetime_string, format_datetime)
-        except ValueError:
-            print(f"Invalid datetime format. It should be in the format '{format_datetime}'")
+        if not datetime.strptime(datetime_string, format_datetime):
+            raise ValueError(f"Invalid datetime format. It should be in the format '{format_datetime}'")
         if 1 > datetime_obj.year > 9999:
             raise ValueError("The year value is not within range.")
         # Check if the month is within range 01 and 12.
@@ -139,7 +178,7 @@ def validate_hour(hour):
     else:
         raise ValueError("No value was provided.")
 
-# The validate_format_image function validated if the chosen format is within the supported formats.
+# The validate_format_image function validates if the chosen format is within the supported formats.
 def validate_format_image(format_image):
     """Function that validates the format of an image.
     The format supported are jpg, jpeg, png, svg, pdf."""
@@ -148,9 +187,40 @@ def validate_format_image(format_image):
         raise InvalidFormatImage(f"{format_image} is an unsupported format. The formats allowed \
                         are: jpg, jpeg, png, svg, pdf.")
 
+# The validate_delimiter function validates if the chosen delimiter is allowed.
+def validate_delimiter(delimiter):
+    """Function that validates the delimiter for .csv file.
+    The supported delimiter are ',', ';', '\t', ' '."""
+    valid_delimiters = [',', ';', '\t', ' ']
+    if delimiter is not None:
+        if delimiter not in valid_delimiters:
+            raise ValueError("The chosen delimiter is not allowed. \
+                             The supported delimiter are ',', ';', '\t', ' '")
+    else:
+        raise ValueError("No value provided.")
+
+# The validate_file_name function validates if the chosen file name is allowed.
+def validate_file_name(name):
+    """Function that validates the name.
+    The name entered must be a string, and must not contain certain symbols.
+    Otherwise, including if no value is provided, an exception is raised."""
+    # Define a regex that matches a list of unwanted symbols.
+    pattern = r'[^~"#%&*:<>?/\{|}]'
+    if name != "" and name is not None:
+        if not isinstance(name, str):
+            raise TypeError(f"Is required a string \
+                                    it's provided {type(name)}")
+        # Check the file name for unwanted symbols.
+        if not re.search(pattern, name):
+            raise re.error(f"The name {name} contains unwanted symbols.", r'[^~"#%&*:<>?/\{|}]')
+    else:
+        raise ValueError("No value was provided.")
+
+# The validate_free_spaces_by_time_slot validates if there is any detection of free spaces by time slot.
 def validate_free_spaces_by_time_slot(avg_free_spaces_by_time_slot):
+    """Function that validates if there are free spaces in time slot."""
     if not isinstance(avg_free_spaces_by_time_slot, list) or len(avg_free_spaces_by_time_slot) != 24:
-                raise ValueError("Input must be a list of 24 elements")
+        raise ValueError("Input must be a list of 24 elements")
     else:
         count_zero = 0
         for i in range(24):

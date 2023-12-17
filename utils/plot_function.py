@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt # Library used to create plot.
 from classes.parking_class import Parking
 from utils.validations import validate_free_spaces_by_time_slot
 from constants.months import Month
-from utils.validations import validate_name, validate_format_image
+from utils.validations import validate_file_name, validate_format_image
 
 
 # Define a function that creates a bar graph based on the average number of free spaces
@@ -37,7 +37,7 @@ def generate_free_parks_in_hours(month: int, parking: Parking):
         
         return avg_free_spaces_by_time_slot
 
-def generate_figure(avg_free_spaces_by_time_slot: list, month: int):
+def generate_figure(avg_free_spaces_by_time_slot: list, month: int, output_name_file: str, format_image: str):
         try:
                 validate_free_spaces_by_time_slot(avg_free_spaces_by_time_slot)
         except ValueError as value:
@@ -54,19 +54,23 @@ def generate_figure(avg_free_spaces_by_time_slot: list, month: int):
                         plt.title(f"Parcheggi liberi per fascia oraria nel mese di {Month(month).name}")
                         plt.ylabel("Numero di parcheggi liberi")
                         plt.xlabel("Orario")
-                return plt
+                #return fig
                         
 
-def show_plot(plt: plt.figure):
-        plt.show()              
+#def save_plot(fig: plt.figure, output_name_file: str, format_image: str):
+                try:
+                        validate_file_name(output_name_file)
+                        validate_format_image(format_image)
+                except ValueError as value:
+                        print(value)
+                except TypeError as value:
+                        print(value)
+                else:
+                        plt.savefig(f"outputs/{output_name_file}.{format_image}", format=format_image)
+        
 
-def save_plot(plt: plt.figure, output_name_file: str, format_image: str):
-        try:
-                validate_name(output_name_file)
-                validate_format_image(format_image)
-        except ValueError as value:
-                print(value)
-        except TypeError as value:
-                print(value)
-        else:
-                plt.savefig(f"outputs/{output_name_file}.{format_image}", format=format_image)
+# def show_plot(fig: plt.figure):
+                plt.show()         
+         
+
+
