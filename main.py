@@ -31,6 +31,8 @@ def main():
                 dictionary = get_data_from_url(input("Input url: "))
             except ValueError as value:
                 print (f"There is an error: {value}")
+            except ConnectionError as conn:
+                print (f"There is an error: {conn}")
         # Code to open dataset from file (local).
         elif user_choice.lower() == 'local' or user_choice.lower() =="l":
             print("You have chosen to open an offline dataset.")
