@@ -1,5 +1,5 @@
 """"""
-from utils.load_convert_function import get_data_from_url,get_data_from_local, generate_parks_list
+from utils.load_convert_function import get_data_from_url, get_data_from_local, generate_parks_list
 from utils.plot_function import plot_free_places
 
 def main():
@@ -30,7 +30,16 @@ def main():
     #print(parks_list[0].get_detections_list())
     plot_free_places(10,parks_list[0])
 
-   
+    """#  Save file in a .csv
+    filename = input("To save the results in a .csv file, choose the name: ")
+    while True:
+        try:
+            geo.save_csv(filename, )
+            break
+        # If file name contains format error (examples: <, >, :, "", ?, !, |, \, *)
+        except:
+            filename = input("The chosen name is not allowed. Please input a new name: ")"""
+
     """with open("data.csv", "w") as my_file:
         #salvataggio dell'heather...
         my_file.write("lat;lon\n")

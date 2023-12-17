@@ -69,7 +69,7 @@ def validate_spaces(spaces, total_spaces):
         if not isinstance(spaces, (int,float)):
             raise TypeError(f"Is required a int or float value of parking spaces \
                                     it's provided {type(spaces)}")
-        if not 0 <= spaces <= total_spaces:
+        if not 0 <= spaces  and spaces <= total_spaces:
             raise ValueError("""Invalid value of spaces compared to total spaces. \
                                     The value of occuped spaces must be between 0 and \
                                     the maximum capacity of the parking.""")
@@ -126,7 +126,7 @@ def validate_month(month):
         raise ValueError("No value was provided.")
 
 # The validate_time function validates if hour and minutes entered is within the range.
-def validate_time(hour, minutes):
+def validate_hour(hour):
     """Function that validates the time.
     The value entered must be within range.
     Otherwise, including if no value is provided, an exception is raised."""
@@ -136,14 +136,6 @@ def validate_time(hour, minutes):
                                 it's provided {type(hour)}")
         if not 0 <= hour <= 24:
             raise ValueError("The hour entered must be within the range 0 - 24.")
-    else:
-        raise ValueError("No value was provided.")
-    if minutes != "" and minutes is not None:
-        if not isinstance(minutes, (int)):
-            raise TypeError(f"Is required a int value of minutes \
-                                it's provided {type(minutes)}")
-        if not 0 <= minutes <= 59:
-            raise ValueError("The minutes entered must be within the range 0 - 59.")
     else:
         raise ValueError("No value was provided.")
 
