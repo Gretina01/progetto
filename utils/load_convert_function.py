@@ -36,14 +36,14 @@ def generate_parking_list(dictionary: dict):
 
     for parking in dictionary['features']:
         guid = parking["properties"]["guid"]
-        if guid not in surveyed_guids:
+        if guid not in surveyed_guids: #se non ho ancora scoperto qiel parcheggio ci creo la lista, in modo univocp
             surveyed_guids.append(guid)
             lat = parking["geometry"]["coordinates"][0]
             lon = parking["geometry"]["coordinates"][1]
             name = parking["properties"]["parcheggio"]
             total_spaces = parking["properties"]["posti_totali"]
             parking_list.append(Parking(lat, lon, name, guid, total_spaces))
-
+    # per ogni parcheggio univoco cerco le sue rilevazioni e le aggiungo al parcheggio considerato
     for parking in parking_list:
         for elem in dictionary['features']:
             if elem["properties"]["guid"] == parking.get_parking_guid():
