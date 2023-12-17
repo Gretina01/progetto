@@ -1,7 +1,10 @@
 """In this module there is a class that manages the coordinates of the parking lots in Bologna."""
 
+# Import math library to use radians, cos, sin, asin
+from math import radians, cos, sin, asin, sqrt
 # Import a python file containing validations function.
 from utils.validations import validate_latitude, validate_longitude
+from classes.parking_class import Parking
 
 # The constant of earth radius in meters is defined to be used in the distance between two points.
 EARTH_RADIUS = 6371000.0

@@ -18,3 +18,13 @@ class Month(Enum):
     OTTOBRE = 10
     NOVEMBRE = 11
     DICEMBRE = 12
+
+class Day(Enum):
+    """Definition of a class to enumerate days."""
+    LUNEDI = 1
+    MARTEDI = 2
+    MERCOLEDI = 3
+    GIOVEDI = 4
+    VENERDI = 5
+    SABATO = 6
+    DOMENICA = 7
