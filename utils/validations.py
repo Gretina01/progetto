@@ -17,17 +17,20 @@ def validate_latitude(latitude):
     """Function that validates the latitude. 
     The value entered must be a float or int and must be within the range.
     Otherwise, including if no value is provided, an exception is raised."""
-    if latitude != "" and latitude is not None:
-        if not isinstance(latitude, (int, float)):
-            raise TypeError(f"Is required a float or int value of latitude \
-                            it's provided {type(latitude)}")
-        if not abs(latitude) <= 90.0:
-            raise ValueError(f"The latitude value is not within a valid range. \
+    if latitude != "" and latitude is not None:    
+        try:
+            latitude_float = float(latitude)
+        except ValueError as ex:
+            raise TypeError(f"Is required a int or float value of latitude, it's provided {type(latitude)}") from ex
+        else:
+            if not abs(latitude_float) <= 90.0:
+                raise ValueError(f"The latitude value is not within a valid range. \
                                 Valid values are between -90 and +90 degrees. \
-                                The value provided is {latitude}")
-    # If the latitude value is not provided, an exception is raised.
+                                The value provided is {latitude_float}")
+            return latitude_float
     else:
         raise ValueError("No value was provided.")
+
 
 # The validate_longitude function checks whether the longitude value inserted
 # is within the range -180 and +180 degrees and whether it is a float or int.
@@ -39,15 +42,17 @@ def validate_longitude(longitude):
 
     # If the longitude value is provided, check whether it is a float or int
     # and that it is within range.
-    if longitude != "" and longitude is not None:
-        if not isinstance(longitude, (int, float)):
-            raise TypeError(f"Is required a float or int value of longitude \
-                            it's provided {type(longitude)}")
-        if not abs(longitude) <= 180.0:
-            raise ValueError(f"The longitude value is not within a valid range. \
+    if longitude != "" and longitude is not None:    
+        try:
+            longitude_float = float(longitude)
+        except ValueError as ex:
+            raise TypeError(f"Is required a int or float value of longitude, it's provided {type(longitude)}") from ex
+        else:
+            if not abs(longitude_float) <= 180.0:
+                raise ValueError(f"The longitude value is not within a valid range. \
                                 Valid values are between -180 and +180 degrees. \
-                                The value provided is {longitude}")
-    # If the longitude value is not provided, an exception is raised.
+                                The value provided is {longitude_float}")
+            return longitude_float
     else:
         raise ValueError("No value was provided.")
 

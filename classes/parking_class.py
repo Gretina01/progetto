@@ -1,15 +1,11 @@
 """"In this module there is a class that manages the parking lots in Bologna: 
 defining the name, spaces and coordinates of a parking."""
 
-# Import math library to use radians, cos, sin, asin
-from math import radians, cos, sin, asin, sqrt
+
 # Import a python file containing a point class
 from classes.point_class import Point
 # Import a python file containing function validation
 from utils.validations import validate_name, validate_parking_guid, validate_total_spaces
-
-# The constant of earth radius in meters is defined to be used in the distance between two points.
-EARTH_RADIUS = 6371000.0
 
 # Class to define a parking. Inherits from the point class.
 class Parking(Point):
@@ -60,27 +56,6 @@ class Parking(Point):
         else:
             self._total_spaces = total_spaces
 
-    # Define a function that returns the value of the distance between two points
-    # using the Haversine formula.
-    def get_distance_from_this_parking(self, obj: Point):
-        """Class helper method, returns the distance between two points."""
-        if isinstance(obj, Point):
-            lat_parking = self.get_latitude()
-            lon_parking = self.get_longitude()
-            lat_user = obj.get_latitude()
-            lon_user = obj.get_longitude()
-            # Convert latitude and longitude from degrees to radians.
-            lat_parking, lon_parking, lat_user, lon_user = map(radians, [lat_parking, lon_parking, \
-                                                                        lat_user, lon_user])
-            # Calculate the difference of latitude and longitude.
-            delta_lat = lat_user - lat_parking
-            delta_lon = lon_user - lon_parking
-            # Calculate the difference with Haversine formula.
-            a = sin(delta_lat/2)**2 + cos(lat_parking) * cos(lat_user) * sin(delta_lon/2)**2
-            c = 2 * asin(sqrt(a))
-            return EARTH_RADIUS * c
-        raise TypeError("The lat_user and lon_user pair are not type Point")
-
     # The get method return the name attribute
     def get_name(self):
         """Getter for parking name private field."""
@@ -105,6 +80,11 @@ class Parking(Point):
     def get_detections_list(self):
         """Class helper method, returns the list of detections of this parking."""
         return self._detections_list
+    
+    # Get the point of this parking.
+    def get_point(self):
+        """Class helper method, returns the point of this parking."""
+        return Point(self.get_latitude(), self.get_longitude())
 
     # The __str__ method is responsible for returning a string representation of the object.
     def __str__(self):

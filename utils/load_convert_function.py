@@ -44,8 +44,8 @@ def generate_parking_list(dictionary: dict):
         guid = parking["properties"]["guid"]
         if guid not in surveyed_guids:
             surveyed_guids.append(guid)
-            lat = parking["geometry"]["coordinates"][0]
-            lon = parking["geometry"]["coordinates"][1]
+            lat = parking["geometry"]["coordinates"][1]
+            lon = parking["geometry"]["coordinates"][0]
             name = parking["properties"]["parcheggio"]
             total_spaces = parking["properties"]["posti_totali"]
             parking_list.append(Parking(lat, lon, name, guid, total_spaces))

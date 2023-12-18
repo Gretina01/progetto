@@ -28,7 +28,7 @@ def main():
     while dictionary is None:
         user_choice = input("Do you want to open the dataset from online or local? ")
         # Code to open dataset from url (online).
-        if user_choice.lower() == 'online' or user_choice.lower() =="o":
+        if user_choice.lower() == 'online' or user_choice.lower() == "o":
             print("You have chosen to open an online dataset.")
             try:
                 dictionary = get_data_from_url(input("Input url: "))
@@ -150,10 +150,11 @@ def main():
     print("Choose the desired parking lot: ")
     for i, parking in enumerate(parking_list):
         print(f"Write {i} for parking {parking.get_name()}")
-    while True:
+    parking_choice_int = None
+    while parking_choice_int is None:
         try:
-            parking_choice = input("The chosen parking lot is: ")
-            validate_parking_choice(parking_choice)
+            parking_choice_str = input("The chosen parking lot is: ")
+            parking_choice_int = validate_parking_choice(parking_choice_str)
             break
         except TypeError as typeerr:
             print(f"The error is {typeerr}")
@@ -188,7 +189,7 @@ def main():
     # Generate the plot.
     print("The required graph is: ")
     free_parking_for_day = generate_free_parks_in_hours_for_day(chosen_day_int, \
-                                                                parking_list[parking_choice])
+                                                                parking_list[parking_choice_int])
     generate_figure_and_plot_for_day(free_parking_for_day, chosen_day_int, \
                                      img_output_name_file, img_format)
 
@@ -211,23 +212,24 @@ def main():
             print(f"The error is: {value}")
 
     # Save a .csv file.
-    export_csv(free_parking_for_day, csv_output_name_file, parking_list[parking_choice], \
+    export_csv(free_parking_for_day, csv_output_name_file, parking_list[parking_choice_int], \
                chosen_day_int, delimiter)
 
     # Have the user enter their location, in terms of latitude and longitude.
     print("Please insert your latitude and longitude, to calculate the best parking.")
     while True:
-        user_latitude = float(input("Insert your latitude: "))
-        user_longitude = float(input("Insert your longitude: "))
+        user_latitude_str = input("Insert your latitude: ")
+        user_longitude_str = input("Insert your longitude: ")
         try:
-            validate_latitude(user_latitude)
-            validate_longitude(user_longitude)
+            user_latitude_float = validate_latitude(user_latitude_str)
+            user_longitude_float = validate_longitude(user_longitude_str)
             break
         except TypeError as typeerr:
             print(f"Is required a float value of latitude and longitude, \
                                     the error is {typeerr}")
         except ValueError as value:
             print(f"The error is: {value}.")
+    user_point = Point(user_latitude_float, user_longitude_float)
 
     # Ask the user to enter the month and time slot they want to go to.
     print("Please insert the month and time slot you want to go. ")
@@ -255,7 +257,7 @@ def main():
                 best_park = park
 
     # Calculate the distance between the user and the best parking lot.
-    distance = best_park.get_distance_from_this_parking(Point(user_latitude, user_longitude))
+    distance = user_point.get_distance_from_this_point(best_park.get_point())
     print(f"The best parking lot is {best_park.get_name()} with \
           {generate_free_parks_in_hours_for_month(chosen_month_int, best_park)[chosen_hour_int]}%  \
             of free parking spaces that is {distance} m from you.")
