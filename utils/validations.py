@@ -215,8 +215,8 @@ def validate_hour(hour):
         except ValueError as ex:
             raise TypeError(f"Is required a int value of hour choice, it's provided {type(hour)}") from ex
         else:
-            if not 0 <= hour_as_int <= 2:
-                raise ValueError("The hour choice entered must be within the range 1 - 7.")
+            if not 0 <= hour_as_int <= 24:
+                raise ValueError("The hour choice entered must be within the range 0 - 24.")
             return hour_as_int
     else:
         raise ValueError("No value was provided.")
