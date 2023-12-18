@@ -248,15 +248,16 @@ def validate_file_name(name):
     The name entered must be a string, and must not contain certain symbols.
     Otherwise, including if no value is provided, an exception is raised."""
     # Define a regex that matches a list of unwanted symbols.
-    pattern = r'[^~"#%&*:<>?/\{|}]'
+    unallowed_characters = "/<>:\"\\|?*"
     if name != "" and name is not None:
         try:
             name = str(name)
-        except re.error as er:
+        except TypeError as er:
             raise TypeError(f"Is required a string, it's provided {type(name)}") from er
         # Check the file name for unwanted symbols.
-        if not re.search(pattern, name):
-            raise re.error(f"The name {name} contains unwanted symbols.", r'[^~"#%&*:<>?/\{|}]')
+        for character in name:
+            if character in unallowed_characters:
+                raise ValueError("Il nome non è valido.")
     else:
         raise ValueError("No value was provided.")
 
