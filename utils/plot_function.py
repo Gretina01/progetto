@@ -3,9 +3,8 @@
 import datetime
 import matplotlib.pyplot as plt # Library used to create plot.
 from classes.parking_class import Parking
-from utils.validations import validate_free_spaces_by_time_slot
+from utils.validations import validate_free_spaces_by_time_slot, validate_file_name, validate_format_image
 from constants.calendar import Month, Day
-from utils.validations import validate_file_name, validate_format_image
 
 
 # Define a function that creates a bar graph based on the average number of free spaces

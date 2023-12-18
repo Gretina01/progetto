@@ -62,7 +62,7 @@ class Parking(Point):
 
     # Define a function that returns the value of the distance between two points
     # using the Haversine formula.
-    def get_distance_from_this_park(self, obj: Point):
+    def get_distance_from_this_parking(self, obj: Point):
         """Class helper method, returns the distance between two points."""
         if isinstance(obj, Point):
             lat_parking = self.get_latitude()

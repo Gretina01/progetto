@@ -129,7 +129,7 @@ def validate_datetime(datetime_obj, format_datetime = "%Y-%m-%d %H:%M:%S"):
     datetime_string = datetime_obj.strftime(format_datetime)
     if datetime_string != "" and datetime_string is not None:
         if not datetime.strptime(datetime_string, format_datetime):
-            raise ValueError(f"Invalid datetime format. It should be in the format '{format_datetime}'")
+            raise ValueError(f"Invalid datetime format. It should be in the format '{format_datetime}.'")
         if 1 > datetime_obj.year > 9999:
             raise ValueError("The year value is not within range.")
         # Check if the month is within range 01 and 12.
@@ -216,24 +216,31 @@ def validate_file_name(name):
     else:
         raise ValueError("No value was provided.")
 
-# The validate_free_spaces_by_time_slot validates if there is any detection of free spaces by time slot.
+# The validate_free_spaces_by_time_slot validates if there is any detection of free spaces 
+# by time slot.
 def validate_free_spaces_by_time_slot(avg_free_spaces_by_time_slot):
     """Function that validates if there are free spaces in time slot."""
-    if not isinstance(avg_free_spaces_by_time_slot, list) or len(avg_free_spaces_by_time_slot) != 24:
-        raise ValueError("Input must be a list of 24 elements")
-    else:
-        count_zero = 0
-        for i in range(24):
-            if avg_free_spaces_by_time_slot[i] == 0 or avg_free_spaces_by_time_slot[i] == 0.0:
-                count_zero += 1
-            if not isinstance(avg_free_spaces_by_time_slot[i], (float)):
-                raise TypeError(f"Invalid type at index {i}")
-            if not 0 <= avg_free_spaces_by_time_slot[i] <= 100:
-                raise ValueError(f"Invalid value at index {i}")
-        if count_zero == 24:
-            raise ValueError("Ci sono troppe fasce orarie con mancanza di dati")
-        
+    if not isinstance(avg_free_spaces_by_time_slot, list) or \
+        len(avg_free_spaces_by_time_slot) != 24:
+        raise ValueError("Input must be a list of 24 elements, which represent the time slots.")
+    # Within the list I count the time slots without detections.
+    count_zero = 0
+    for i in range(24):
+        if avg_free_spaces_by_time_slot[i] == 0 or avg_free_spaces_by_time_slot[i] == 0.0:
+            count_zero += 1
+        if not isinstance(avg_free_spaces_by_time_slot[i], (float)):
+            raise TypeError(f"Invalid type at index {i}")
+        if not 0 <= avg_free_spaces_by_time_slot[i] <= 100:
+            raise ValueError(f"Invalid value at index {i}")
+    # If all the time slots are empty, it makes no sense to print the plot.
+    if count_zero == 24:
+        raise ValueError("Ci sono troppe fasce orarie con mancanza di dati")
+
+# The validate_day function validates if the chosen day entered within the range.
 def validate_day(day):
+    """Function that validates the day.
+    The day entered must be a int, and must be within the range 1-7..
+    Otherwise, including if no value is provided, an exception is raised."""
     if day != "" and day is not None:
         if not isinstance(day, (int)):
             raise TypeError(f"Is required a int value of hour \

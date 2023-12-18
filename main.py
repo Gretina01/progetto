@@ -9,11 +9,14 @@ import re
 from utils.load_convert_function import get_data_from_url, get_data_from_local, \
     generate_parking_list
 # Python file that contains function that allows to generate plot.
-from utils.plot_function import generate_free_parks_in_hours_for_month, generate_free_parks_in_hours_for_day, generate_figure_and_plot_for_month, generate_figure_and_plot_for_day
+from utils.plot_function import generate_free_parks_in_hours_for_month, \
+    generate_free_parks_in_hours_for_day, generate_figure_and_plot_for_month, \
+        generate_figure_and_plot_for_day
 # Python file that contains function that allows to export results in a .csv file.
 from utils.export_csv_function import export_csv
 # Import a python file containing validations function.
-from utils.validations import validate_file_name, validate_delimiter, validate_month, validate_day, validate_latitude, validate_longitude, validate_hour
+from utils.validations import validate_file_name, validate_delimiter, validate_month, validate_day,\
+    validate_latitude, validate_longitude, validate_hour
 #Import file that contains Point class.
 from classes.point_class import Point
 
@@ -77,22 +80,26 @@ def main():
         except ValueError as value:
             print(f"The error is: {value}.")
 
-    # Generate the plot.
-    print("The required graph is: ")
+    # Save an image of plot.
+    print("Before viewing the graph, please choose image name and format for saving.")
+
     # User choice of image name.
     img_output_name_file = input("Choose the image file name: ")
+
     # User choice of image format name.
     img_format = input("Choose the image file format: ")
-    free_parking_for_month = generate_free_parks_in_hours_for_month(chosen_month, parking_list[parking_choice])
-    generate_figure_and_plot_for_month(free_parking_for_month, chosen_month, img_output_name_file, img_format)
 
-    # Save an image of plot.
-    print("To save an image of graph, please choose the image name and format.")
+    # Generate the plot.
+    print("The required graph is: ")
+    free_parking_for_month = generate_free_parks_in_hours_for_month\
+        (chosen_month, parking_list[parking_choice])
+    generate_figure_and_plot_for_month(free_parking_for_month, chosen_month, \
+                                       img_output_name_file, img_format)
 
     # Save a .csv file of results
     print("To save a .csv of results, please choose the file name and the delimiter.")
 
-    # User choice of image name.
+    # User choice of .csv file name.
     while True:
         csv_output_name_file = input("Choose the name of the CSV file:")
         delimiter = input("Choose the CSV file delimiter: ")
@@ -110,7 +117,10 @@ def main():
     # Save a .csv file.
     export_csv(free_parking_for_month, csv_output_name_file, parking_list[parking_choice], \
                chosen_month, delimiter)
-    
+
+    # User choices to display the desired graph.
+    # A graph will be plotted according to the week day and the chosen parking lot.
+    # User choice of day.
     while True:
         chosen_day = int(input("Indicate the day for which you want to see availability: "))
         try:
@@ -136,22 +146,26 @@ def main():
         except ValueError as value:
             print(f"The error is: {value}.")
 
-    # Generate the plot.
-    print("The required graph is: ")
+    # Save an image of plot.
+    print("Before viewing the graph, please choose image name and format for saving.")
+
     # User choice of image name.
     img_output_name_file = input("Choose the image file name: ")
+
     # User choice of image format name.
     img_format = input("Choose the image file format: ")
-    free_parking_for_day = generate_free_parks_in_hours_for_day(chosen_day, parking_list[parking_choice])
-    generate_figure_and_plot_for_day(free_parking_for_day, chosen_day, img_output_name_file, img_format)
 
-    # Save an image of plot.
-    print("To save an image of graph, please choose the image name and format.")
+    # Generate the plot.
+    print("The required graph is: ")
+    free_parking_for_day = generate_free_parks_in_hours_for_day(chosen_day, \
+                                                                parking_list[parking_choice])
+    generate_figure_and_plot_for_day(free_parking_for_day, chosen_day, \
+                                     img_output_name_file, img_format)
 
     # Save a .csv file of results
     print("To save a .csv of results, please choose the file name and the delimiter.")
 
-    # User choice of image name.
+    # User choice of .csv file name.
     while True:
         csv_output_name_file = input("Choose the name of the CSV file:")
         delimiter = input("Choose the CSV file delimiter: ")
@@ -169,8 +183,9 @@ def main():
     # Save a .csv file.
     export_csv(free_parking_for_day, csv_output_name_file, parking_list[parking_choice], \
                chosen_day, delimiter)
-    
-    print("Please insert your latitude and longitude.")
+
+    # Have the user enter their location, in terms of latitude and longitude.
+    print("Please insert your latitude and longitude, to calculate the best parking.")
     while True:
         user_latitude = float(input("Insert your latitude: "))
         user_longitude = float(input("Insert your longitude: "))
@@ -183,7 +198,9 @@ def main():
                                     the error is {typeerr}")
         except ValueError as value:
             print(f"The error is: {value}.")
-    
+
+    # Ask the user to enter the month and time slot they want to go to.
+    print("Please insert the month and time slot you want to go. ")
     while True:
         chosen_month = int(input("Indicate the month: "))
         chosen_hour = int(input("Indicate the hour: "))
@@ -196,19 +213,22 @@ def main():
                                     the error is: {typeerr}.")
         except ValueError as value:
             print(f"The error is: {value}.")
-    #Find the percentage of free parking spaces in the chosen month and hour for all parking lots
+
+    # Find the percentage of free parking spaces in the chosen month and hour for all parking lots.
     best_park = None
     for park in parking_list:
         if best_park is None:
             best_park = park
         else:
-            if generate_free_parks_in_hours_for_month(chosen_month, park)[chosen_hour] > generate_free_parks_in_hours_for_month(chosen_month, best_park)[chosen_hour]:
+            if generate_free_parks_in_hours_for_month(chosen_month, park)[chosen_hour] > \
+                generate_free_parks_in_hours_for_month(chosen_month, best_park)[chosen_hour]:
                 best_park = park
-    
-    #Calculate the distance between the user and the best parking lot
-    distance = best_park.get_distance_from_this_park(Point(user_latitude, user_longitude))
 
-    print(f"The best parking lot is {best_park.get_name()} with {generate_free_parks_in_hours_for_month(chosen_month, best_park)[chosen_hour]}% of free parking spaces that is {distance} m from you.")
+    # Calculate the distance between the user and the best parking lot.
+    distance = best_park.get_distance_from_this_parking(Point(user_latitude, user_longitude))
+    print(f"The best parking lot is {best_park.get_name()} with \
+          {generate_free_parks_in_hours_for_month(chosen_month, best_park)[chosen_hour]}%  \
+            of free parking spaces that is {distance} m from you.")
 
 if __name__ == "__main__":
     main()

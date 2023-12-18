@@ -1,6 +1,6 @@
-"""In this module there is a class to manage months numbering"""
+"""In this module there is a class to manage months and days numbering"""
 
-# Import enum library to simplify the enumeration of months.
+# Import enum library to simplify the enumeration of months and days.
 from enum import Enum
 
 # Class to enumerate months. Inherits from enum.
@@ -19,6 +19,7 @@ class Month(Enum):
     NOVEMBRE = 11
     DICEMBRE = 12
 
+# Class to enumerate days. Inherits from enum.
 class Day(Enum):
     """Definition of a class to enumerate days."""
     LUNEDI = 1

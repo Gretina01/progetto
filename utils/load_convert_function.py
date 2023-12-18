@@ -26,10 +26,8 @@ def get_data_from_url(url:str):
 # Definition of a function that manages the import of the dataset from file
 def get_data_from_local(my_path):
     """Get dataset offline, from file"""
-
     if os.path.exists(my_path) is False:
         raise ValueError("File not found")
-
     with open(my_path, encoding = "utf-8") as my_file:
         my_data = json.load(my_file)
         return my_data
@@ -40,16 +38,18 @@ def generate_parking_list(dictionary: dict):
     parking_list = []
     surveyed_guids = []
 
+    # Creation of a list of unique parking lots, identified via the guid.
     for parking in dictionary['features']:
         guid = parking["properties"]["guid"]
-        if guid not in surveyed_guids: #se non ho ancora scoperto qiel parcheggio ci creo la lista, in modo univocp
+        if guid not in surveyed_guids:
             surveyed_guids.append(guid)
             lat = parking["geometry"]["coordinates"][0]
             lon = parking["geometry"]["coordinates"][1]
             name = parking["properties"]["parcheggio"]
             total_spaces = parking["properties"]["posti_totali"]
             parking_list.append(Parking(lat, lon, name, guid, total_spaces))
-    # per ogni parcheggio univoco cerco le sue rilevazioni e le aggiungo al parcheggio considerato
+
+    # For each parking lots, searching for its detections and add them to the list of that parking.
     for parking in parking_list:
         for elem in dictionary['features']:
             if elem["properties"]["guid"] == parking.get_parking_guid():
