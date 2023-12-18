@@ -18,11 +18,11 @@ from constants.calendar import Month, Day
 # in % and the time slots in a month of your choice.
 def generate_free_parks_in_hours_for_month(month: int, parking: Parking):
     """Function that creates a plot based on the chosen month."""
-    months = [data.month for data in [datetime.strptime(couple[0], "%Y-%m-%d %H:%M:%S") \
+    months = [data.month for data in [couple[0] \
                                       for couple in parking.get_detections_list()]]
     month_couples = [couple for couple, choose_month in zip(parking.get_detections_list(), \
                                                   months) if choose_month == month]
-    hours = [data.hour for data in [datetime.strptime(couple[0], "%Y-%m-%d %H:%M:%S") \
+    hours = [data.hour for data in [couple[0] \
                                     for couple in month_couples]]
 
     occupied_spaces_by_time_slots = [[] for _ in range(24)]
@@ -51,12 +51,12 @@ def generate_free_parks_in_hours_for_month(month: int, parking: Parking):
 # in % and the time slots in a week day of your choice.
 def generate_free_parks_in_hours_for_day(day: int, parking: Parking):
     """Function that creates a plot based on the chosen month."""
-    days = [data.day for data in [datetime.strptime(couple[0], "%Y-%m-%d %H:%M:%S") \
+    days = [data.day for data in [couple[0]\
                                   for couple in parking.get_detections_list()]]
     # Selezioniamo le coppie del mese di dicembre
     day_couples = [couple for couple, choose_day in zip(parking.get_detections_list(), days) \
                    if choose_day == day]
-    hours = [data.hour for data in [datetime.strptime(couple[0], "%Y-%m-%d %H:%M:%S") \
+    hours = [data.hour for data in [couple[0] \
                                     for couple in day_couples]]
 
     occupied_spaces_by_time_slots = [[] for _ in range(24)]
