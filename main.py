@@ -16,7 +16,7 @@ from utils.plot_function import generate_free_parks_in_hours_for_month, \
 from utils.export_csv_function import export_csv
 # Import a python file containing validations function.
 from utils.validations import validate_file_name, validate_delimiter, validate_month, validate_day,\
-    validate_latitude, validate_longitude, validate_hour
+    validate_latitude, validate_longitude, validate_hour, validate_parking_choice, validate_format_image
 #Import file that contains Point class.
 from classes.point_class import Point
 
@@ -56,13 +56,12 @@ def main():
     # A graph will be plotted according to the month and the chosen parking lot.
     # User choice of month.
     while True:
-        chosen_month = int(input("Indicate the month for which you want to see availability: "))
         try:
+            chosen_month = input("Indicate the month for which you want to see availability: ")
             validate_month(chosen_month)
             break
         except TypeError as typeerr:
-            print(f"Is required a int value of month, \
-                                    the error is: {typeerr}.")
+            print(f"The error is: {typeerr}")
         except ValueError as value:
             print(f"The error is: {value}.")
 
@@ -73,10 +72,10 @@ def main():
     while True:
         try:
             parking_choice = int(input("The chosen parking lot is: "))
+            validate_parking_choice(parking_choice)
             break
         except TypeError as typeerr:
-            print(f"Is required a int value of month, \
-                                    the error is {typeerr}")
+            print(f"The error is {typeerr}")
         except ValueError as value:
             print(f"The error is: {value}.")
 
@@ -84,10 +83,26 @@ def main():
     print("Before viewing the graph, please choose image name and format for saving.")
 
     # User choice of image name.
-    img_output_name_file = input("Choose the image file name: ")
+    while True:
+        try:
+            img_output_name_file = input("Choose the image file name: ")
+            validate_file_name(img_output_name_file)
+            break
+        except TypeError as typeerr:
+            print(f"The error is: {typeerr}")
+        except ValueError as value:
+            print(f"The error is: {value}")
 
     # User choice of image format name.
-    img_format = input("Choose the image file format: ")
+    while True:
+        try:
+            img_format = input("Choose the image file format: ")
+            validate_format_image(img_format)
+            break
+        except TypeError as typeerr:
+            print(f"The error is: {typeerr}")
+        except ValueError as value:
+            print(f"The error is: {value}")
 
     # Generate the plot.
     print("The required graph is: ")
@@ -122,13 +137,12 @@ def main():
     # A graph will be plotted according to the week day and the chosen parking lot.
     # User choice of day.
     while True:
-        chosen_day = int(input("Indicate the day for which you want to see availability: "))
         try:
+            chosen_day = input("Indicate the day for which you want to see availability: ")
             validate_day(chosen_day)
             break
         except TypeError as typeerr:
-            print(f"Is required a int value of day, \
-                                    the error is: {typeerr}.")
+            print(f"The error is: {typeerr}.")
         except ValueError as value:
             print(f"The error is: {value}.")
 
@@ -138,11 +152,11 @@ def main():
         print(f"Write {i} for parking {parking.get_name()}")
     while True:
         try:
-            parking_choice = int(input("The chosen parking lot is: "))
+            parking_choice = input("The chosen parking lot is: ")
+            validate_parking_choice(parking_choice)
             break
         except TypeError as typeerr:
-            print(f"Is required a int value of month, \
-                                    the error is {typeerr}")
+            print(f"The error is {typeerr}")
         except ValueError as value:
             print(f"The error is: {value}.")
 
@@ -150,10 +164,26 @@ def main():
     print("Before viewing the graph, please choose image name and format for saving.")
 
     # User choice of image name.
-    img_output_name_file = input("Choose the image file name: ")
+    while True:
+        try:
+            img_output_name_file = input("Choose the image file name: ")
+            validate_file_name(img_output_name_file)
+            break
+        except TypeError as typeerr:
+            print(f"The error is: {typeerr}")
+        except ValueError as value:
+            print(f"The error is: {value}")
 
     # User choice of image format name.
-    img_format = input("Choose the image file format: ")
+    while True:
+        try:
+            img_format = input("Choose the image file format: ")
+            validate_format_image(img_format)
+            break
+        except TypeError as typeerr:
+            print(f"The error is: {typeerr}")
+        except ValueError as value:
+            print(f"The error is: {value}")
 
     # Generate the plot.
     print("The required graph is: ")

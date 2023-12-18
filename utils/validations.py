@@ -156,11 +156,27 @@ def validate_month(month):
     The value entered must be within range.
     Otherwise, including if no value is provided, an exception is raised."""
     if month != "" and month is not None:
-        if not isinstance(month, (int)):
-            raise TypeError(f"Is required a int value of month \
-                                it's provided {type(month)}")
-        if not 0 <= month <= 12:
-            raise ValueError("The month entered must be within the range 0 - 12.")
+        try:
+            month = int(month)
+        except ValueError as ex:
+            raise TypeError(f"Is required a int value of month, it's provided {type(month)}") from ex
+        if not 1 <= month <= 12:
+            raise ValueError("The month entered must be within the range 1 - 12.")
+    else:
+        raise ValueError("No value was provided.")
+
+# The validate_parking_choice function validates if the parking entered entered is within the range.
+def validate_parking_choice(parking):
+    """Function that validates the parking value entered.
+    The value entered must be within range.
+    Otherwise, including if no value is provided, an exception is raised."""
+    if parking != "" and parking is not None:
+        try:
+            parking = int(parking)
+        except ValueError as ex:
+            raise TypeError(f"Is required a int value of parking choice, it's provided {type(parking)}") from ex
+        if not 0 <= parking <= 2:
+            raise ValueError("The parking choice entered must be within the range 0 - 2.")
     else:
         raise ValueError("No value was provided.")
 
@@ -207,9 +223,10 @@ def validate_file_name(name):
     # Define a regex that matches a list of unwanted symbols.
     pattern = r'[^~"#%&*:<>?/\{|}]'
     if name != "" and name is not None:
-        if not isinstance(name, str):
-            raise TypeError(f"Is required a string \
-                                    it's provided {type(name)}")
+        try:
+            name = str(name)
+        except re.error as er:
+            raise TypeError(f"Is required a string, it's provided {type(name)}") from er
         # Check the file name for unwanted symbols.
         if not re.search(pattern, name):
             raise re.error(f"The name {name} contains unwanted symbols.", r'[^~"#%&*:<>?/\{|}]')
@@ -234,7 +251,7 @@ def validate_free_spaces_by_time_slot(avg_free_spaces_by_time_slot):
             raise ValueError(f"Invalid value at index {i}")
     # If all the time slots are empty, it makes no sense to print the plot.
     if count_zero == 24:
-        raise ValueError("Ci sono troppe fasce orarie con mancanza di dati")
+        raise ValueError("There are no detections in all time slots. It is not possible to show the graph.")
 
 # The validate_day function validates if the chosen day entered within the range.
 def validate_day(day):

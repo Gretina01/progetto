@@ -12,10 +12,7 @@ def export_csv(avg_free_spaces_by_time_slot: list, output_name_file: str, parkin
     """Function that export results data in a .csv file."""
     with open(f"outputs/{output_name_file}.csv", "w", encoding = "utf-16") as csv_file:
         print("Saving file...")
-        csv_file.write(f"parking_name{delimiter}parking_longitude{delimiter}parking_latidude\
-                       {delimiter}month{delimiter}hour{delimiter}free_parks_in_%\n")
+        csv_file.write(f"parking_name{delimiter}parking_longitude{delimiter}parking_latidude{delimiter}month{delimiter}hour{delimiter}free_parks_in_%\n")
         for hour, value in enumerate(avg_free_spaces_by_time_slot):
-            csv_file.write(f"{parking.get_name()}{delimiter}{parking.get_longitude()}{delimiter}\
-                           {parking.get_latitude()}{delimiter}{Month(month).name}{delimiter}{hour}{delimiter}\
-                            {value:.2f}%\n")
+            csv_file.write(f"{parking.get_name()}{delimiter}{parking.get_longitude()}{delimiter}{parking.get_latitude()}{delimiter}{Month(month).name}{delimiter}{hour}{delimiter}{value:.2f}%\n")
         print("File saved successfully.")
