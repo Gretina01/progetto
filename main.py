@@ -55,10 +55,11 @@ def main():
     # User choices to display the desired graph.
     # A graph will be plotted according to the month and the chosen parking lot.
     # User choice of month.
-    while True:
+    chosen_month_int = None
+    while chosen_month_int is None:
         try:
-            chosen_month = input("Indicate the month for which you want to see availability: ")
-            validate_month(chosen_month)
+            chosen_month_str = input("Indicate the month for which you want to see availability: ")
+            chosen_month_int = validate_month(chosen_month_str)
             break
         except TypeError as typeerr:
             print(f"The error is: {typeerr}")
@@ -69,10 +70,11 @@ def main():
     print("Choose the desired parking lot: ")
     for i, parking in enumerate(parking_list):
         print(f"Write {i} for parking {parking.get_name()}")
-    while True:
+    chosen_parking_int = None
+    while chosen_parking_int is None:
         try:
-            parking_choice = int(input("The chosen parking lot is: "))
-            validate_parking_choice(parking_choice)
+            chosen_parking_str = input("The chosen parking lot is: ")
+            chosen_parking_int = validate_parking_choice(chosen_parking_str)
             break
         except TypeError as typeerr:
             print(f"The error is {typeerr}")
@@ -107,8 +109,8 @@ def main():
     # Generate the plot.
     print("The required graph is: ")
     free_parking_for_month = generate_free_parks_in_hours_for_month\
-        (chosen_month, parking_list[parking_choice])
-    generate_figure_and_plot_for_month(free_parking_for_month, chosen_month, \
+        (chosen_month_int, parking_list[chosen_parking_int])
+    generate_figure_and_plot_for_month(free_parking_for_month, chosen_month_int, \
                                        img_output_name_file, img_format)
 
     # Save a .csv file of results
@@ -130,16 +132,17 @@ def main():
             print(f"The error is: {value}")
 
     # Save a .csv file.
-    export_csv(free_parking_for_month, csv_output_name_file, parking_list[parking_choice], \
-               chosen_month, delimiter)
+    export_csv(free_parking_for_month, csv_output_name_file, parking_list[chosen_parking_int], \
+               chosen_month_int, delimiter)
 
     # User choices to display the desired graph.
     # A graph will be plotted according to the week day and the chosen parking lot.
     # User choice of day.
-    while True:
+    chosen_day_int = None
+    while chosen_day_int is None:
         try:
-            chosen_day = input("Indicate the day for which you want to see availability: ")
-            validate_day(chosen_day)
+            chosen_day_str = input("Indicate the day for which you want to see availability: ")
+            chosen_day_int = validate_day(chosen_day_str)
             break
         except TypeError as typeerr:
             print(f"The error is: {typeerr}.")
@@ -187,9 +190,9 @@ def main():
 
     # Generate the plot.
     print("The required graph is: ")
-    free_parking_for_day = generate_free_parks_in_hours_for_day(chosen_day, \
+    free_parking_for_day = generate_free_parks_in_hours_for_day(chosen_day_int, \
                                                                 parking_list[parking_choice])
-    generate_figure_and_plot_for_day(free_parking_for_day, chosen_day, \
+    generate_figure_and_plot_for_day(free_parking_for_day, chosen_day_int, \
                                      img_output_name_file, img_format)
 
     # Save a .csv file of results
@@ -212,7 +215,7 @@ def main():
 
     # Save a .csv file.
     export_csv(free_parking_for_day, csv_output_name_file, parking_list[parking_choice], \
-               chosen_day, delimiter)
+               chosen_day_int, delimiter)
 
     # Have the user enter their location, in terms of latitude and longitude.
     print("Please insert your latitude and longitude, to calculate the best parking.")
@@ -232,11 +235,11 @@ def main():
     # Ask the user to enter the month and time slot they want to go to.
     print("Please insert the month and time slot you want to go. ")
     while True:
-        chosen_month = int(input("Indicate the month: "))
-        chosen_hour = int(input("Indicate the hour: "))
+        chosen_month_str = input("Indicate the month: ")
+        chosen_hour_str = input("Indicate the hour: ")
         try:
-            validate_month(chosen_month)
-            validate_hour(chosen_hour)
+            chosen_month_int = validate_month(chosen_month_str)
+            chosen_hour_int = validate_hour(chosen_hour_str)
             break
         except TypeError as typeerr:
             print(f"Is required a int value of month, \
@@ -250,14 +253,14 @@ def main():
         if best_park is None:
             best_park = park
         else:
-            if generate_free_parks_in_hours_for_month(chosen_month, park)[chosen_hour] > \
-                generate_free_parks_in_hours_for_month(chosen_month, best_park)[chosen_hour]:
+            if generate_free_parks_in_hours_for_month(chosen_month_int, park)[chosen_hour_int] > \
+                generate_free_parks_in_hours_for_month(chosen_month_int, best_park)[chosen_hour_int]:
                 best_park = park
 
     # Calculate the distance between the user and the best parking lot.
     distance = best_park.get_distance_from_this_parking(Point(user_latitude, user_longitude))
     print(f"The best parking lot is {best_park.get_name()} with \
-          {generate_free_parks_in_hours_for_month(chosen_month, best_park)[chosen_hour]}%  \
+          {generate_free_parks_in_hours_for_month(chosen_month_int, best_park)[chosen_hour_int]}%  \
             of free parking spaces that is {distance} m from you.")
 
 if __name__ == "__main__":

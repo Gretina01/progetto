@@ -155,13 +155,15 @@ def validate_month(month):
     """Function that validates the month.
     The value entered must be within range.
     Otherwise, including if no value is provided, an exception is raised."""
-    if month != "" and month is not None:
+    if month != "" and month is not None:    
         try:
-            month = int(month)
+            month_as_int = int(month)
         except ValueError as ex:
             raise TypeError(f"Is required a int value of month, it's provided {type(month)}") from ex
-        if not 1 <= month <= 12:
-            raise ValueError("The month entered must be within the range 1 - 12.")
+        else:
+            if not 1 <= month_as_int <= 12:
+                raise ValueError("The month entered must be within the range 1 - 12.")
+            return month_as_int
     else:
         raise ValueError("No value was provided.")
 
@@ -172,25 +174,45 @@ def validate_parking_choice(parking):
     Otherwise, including if no value is provided, an exception is raised."""
     if parking != "" and parking is not None:
         try:
-            parking = int(parking)
+            parking_as_int = int(parking)
         except ValueError as ex:
             raise TypeError(f"Is required a int value of parking choice, it's provided {type(parking)}") from ex
-        if not 0 <= parking <= 2:
-            raise ValueError("The parking choice entered must be within the range 0 - 2.")
+        else:
+            if not 0 <= parking_as_int <= 2:
+                raise ValueError("The parking choice entered must be within the range 0 - 2.")
+            return parking_as_int
     else:
         raise ValueError("No value was provided.")
+    
+# The validate_day function validates if the chosen day entered within the range.
+def validate_day(day):
+    """Function that validates the day.
+    The day entered must be a int, and must be within the range 1-7..
+    Otherwise, including if no value is provided, an exception is raised."""
+    if day != "" and day is not None:
+        try:
+            day_as_int = int(day)
+        except ValueError as ex:
+            raise TypeError(f"Is required a int value of day choice, it's provided {type(day)}") from ex
+        else:
+            if not 0 <= day_as_int <= 2:
+                raise ValueError("The day entered must be within the range 1 - 7.")
+            return day_as_int
+    else:
+        raise ValueError("No value was provided.")
+    
 
 # The validate_time function validates if hour and minutes entered is within the range.
 def validate_hour(hour):
-    """Function that validates the time.
-    The value entered must be within range.
-    Otherwise, including if no value is provided, an exception is raised."""
     if hour != "" and hour is not None:
-        if not isinstance(hour, (int)):
-            raise TypeError(f"Is required a int value of hour \
-                                it's provided {type(hour)}")
-        if not 0 <= hour <= 24:
-            raise ValueError("The hour entered must be within the range 0 - 24.")
+        try:
+            hour_as_int = int(hour)
+        except ValueError as ex:
+            raise TypeError(f"Is required a int value of hour choice, it's provided {type(hour)}") from ex
+        else:
+            if not 0 <= hour_as_int <= 2:
+                raise ValueError("The hour choice entered must be within the range 1 - 7.")
+            return hour_as_int
     else:
         raise ValueError("No value was provided.")
 
@@ -253,16 +275,4 @@ def validate_free_spaces_by_time_slot(avg_free_spaces_by_time_slot):
     if count_zero == 24:
         raise ValueError("There are no detections in all time slots. It is not possible to show the graph.")
 
-# The validate_day function validates if the chosen day entered within the range.
-def validate_day(day):
-    """Function that validates the day.
-    The day entered must be a int, and must be within the range 1-7..
-    Otherwise, including if no value is provided, an exception is raised."""
-    if day != "" and day is not None:
-        if not isinstance(day, (int)):
-            raise TypeError(f"Is required a int value of hour \
-                                it's provided {type(day)}")
-        if not 1 <= day <= 7:
-            raise ValueError("The day entered must be within the range 1 - 7.")
-    else:
-        raise ValueError("No value was provided.")
+

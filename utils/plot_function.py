@@ -101,6 +101,7 @@ def generate_figure_and_plot_for_month(avg_free_spaces_by_time_slot: list, month
             plt.title(f"Number of free parking spaces per time slot in the month of {Month(month).name}")
             plt.ylabel("Number of free places")
             plt.xlabel("Time slot")
+            plt.xticks(range(24))
 
         try:
             validate_file_name(output_name_file)
