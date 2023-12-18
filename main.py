@@ -60,7 +60,6 @@ def main():
         try:
             chosen_month_str = input("Indicate the month for which you want to see availability: ")
             chosen_month_int = validate_month(chosen_month_str)
-            break
         except TypeError as typeerr:
             print(f"The error is: {typeerr}")
         except ValueError as value:
@@ -75,7 +74,6 @@ def main():
         try:
             chosen_parking_str = input("The chosen parking lot is: ")
             chosen_parking_int = validate_parking_choice(chosen_parking_str)
-            break
         except TypeError as typeerr:
             print(f"The error is {typeerr}")
         except ValueError as value:
@@ -143,7 +141,6 @@ def main():
         try:
             chosen_day_str = input("Indicate the day for which you want to see availability: ")
             chosen_day_int = validate_day(chosen_day_str)
-            break
         except TypeError as typeerr:
             print(f"The error is: {typeerr}.")
         except ValueError as value:
