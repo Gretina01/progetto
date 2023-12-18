@@ -232,3 +232,13 @@ def validate_free_spaces_by_time_slot(avg_free_spaces_by_time_slot):
                 raise ValueError(f"Invalid value at index {i}")
         if count_zero == 24:
             raise ValueError("Ci sono troppe fasce orarie con mancanza di dati")
+        
+def validate_day(day):
+    if day != "" and day is not None:
+        if not isinstance(day, (int)):
+            raise TypeError(f"Is required a int value of hour \
+                                it's provided {type(day)}")
+        if not 1 <= day <= 7:
+            raise ValueError("The day entered must be within the range 1 - 7.")
+    else:
+        raise ValueError("No value was provided.")

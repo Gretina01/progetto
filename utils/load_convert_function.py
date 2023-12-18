@@ -2,6 +2,8 @@
 
 # Json is a library that allows you to work with json and geojson files in Python.
 import json
+# The os module provides a portable way of using operating system dependent functionality.
+import os
 # The datetime module supplies classes to work with date and time. These classes provide a number
 # of functions to deal with dates, times, and time intervals.
 from datetime import datetime
@@ -24,6 +26,10 @@ def get_data_from_url(url:str):
 # Definition of a function that manages the import of the dataset from file
 def get_data_from_local(my_path):
     """Get dataset offline, from file"""
+
+    if os.path.exists(my_path) is False:
+        raise ValueError("File not found")
+
     with open(my_path, encoding = "utf-8") as my_file:
         my_data = json.load(my_file)
         return my_data
