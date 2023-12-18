@@ -123,7 +123,7 @@ def astimezone(self, tz):
     return tz.fromutc(utc)"""
 
 # The validate_datetime function validates if the format of the date and time entered is correct.
-def validate_datetime(datetime_obj, format_datetime = "%Y-%m-%d %H:%M:%S"):
+def validate_timestamp(datetime_obj, format_datetime = "%Y-%m-%d %H:%M:%S"):
     """Function that validates the date and time.
     The value entered must respect the format.
     Otherwise, including if no value is provided, an exception is raised."""

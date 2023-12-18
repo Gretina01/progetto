@@ -13,7 +13,7 @@ import requests
 # File Python that contains parking class.
 from classes.parking_class import Parking
 # Import a python file containing validations function.
-from utils.validations import validate_spaces, validate_datetime
+from utils.validations import validate_spaces, validate_timestamp
 
 # Definition of a function that manages the import of the dataset from url
 def get_data_from_url(url:str):
@@ -56,13 +56,13 @@ def generate_parking_list(dictionary: dict):
             if elem["properties"]["guid"] == parking.get_parking_guid():
                 try:
                     validate_spaces(elem["properties"]["posti_occupati"], parking.get_total_spaces)
-                    validate_datetime(elem["properties"]["data"])
+                    validate_timestamp(elem["properties"]["data"])
                 except ValueError as value:
                     print(value)
                 else:
                     utc_datetime = datetime.fromtimestamp(elem["properties"]["data"])
                     rome_timezone = pytz.timezone('Europe/Rome')
                     roma_local_datetime = utc_datetime.replace(tzinfo=pytz.utc).astimezone(rome_timezone)
-                    parking.add_detection((roma_local_datetime, elem\
+                    parking.add_detection((str(roma_local_datetime), elem\
                                             ["properties"]["posti_occupati"]))
     return parking_list
