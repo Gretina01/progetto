@@ -3,12 +3,12 @@ To run the tests put in debug configuration: module. The module name is test.cla
 
 import unittest # Library used to test functions.
                 # It provides a rich set of tools for constructing and running tests.
-from classes.point_class import Point # Python file from which import the point class to test
-from classes.parking_class import Parking # Python file from which import the parking class to test
+from classes.point_class import Point # Python file from which import the point class to test.
+from classes.parking_class import Parking # Python file from which import the parking class to test.
 
 # Class that test point class.
 class PointTestClass(unittest.TestCase):
-    """Test class for point class"""
+    """Test class for point class."""
     # Define the setup for the test.
     def setUp(self):
         """Setup of test."""
@@ -26,7 +26,7 @@ class PointTestClass(unittest.TestCase):
 
 # Class that test parking class.
 class ParkingTestClass(unittest.TestCase):
-    """Test class for parking class"""
+    """Test class for parking class."""
     # Define the setup for the test.
     def setUp(self):
         """Setup of test."""

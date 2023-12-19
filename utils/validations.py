@@ -1,12 +1,9 @@
 """This module contains all the functions that must be validated. 
 The functions in which the user enters the value are validated"""
 
-# The re built-in package can be used to check whether a string contains the
-# specified search pattern.
-import re
 # The datetime module supplies classes to work with date and time. These classes provide a number
 # of functions to deal with dates, times, and time intervals.
-from datetime import datetime, timezone
+from datetime import datetime
 # Python file from which import the custom exception for test the image format.
 from utils.custom_exception import InvalidFormatImage
 
@@ -17,20 +14,21 @@ def validate_latitude(latitude):
     """Function that validates the latitude. 
     The value entered must be a float or int and must be within the range.
     Otherwise, including if no value is provided, an exception is raised."""
-    if latitude != "" and latitude is not None:    
+
+    # If the latitudine value is provided, check whether it is a float or int
+    # and that it is within range.
+    if latitude != "" and latitude is not None:
         try:
             latitude_float = float(latitude)
         except ValueError as ex:
-            raise TypeError(f"Is required a int or float value of latitude, it's provided {type(latitude)}") from ex
-        else:
-            if not abs(latitude_float) <= 90.0:
-                raise ValueError(f"The latitude value is not within a valid range. \
-                                Valid values are between -90 and +90 degrees. \
-                                The value provided is {latitude_float}")
-            return latitude_float
-    else:
-        raise ValueError("No value was provided.")
-
+            raise TypeError(f"Is required a int or float value of latitude, "
+                            f"it's provided {type(latitude)}") from ex
+        if not abs(latitude_float) <= 90.0:
+            raise ValueError(f"The latitude value is not within a valid range. "
+                             f"Valid values are between -90 and +90 degrees. "
+                             f"The value provided is {latitude_float}")
+        return latitude_float
+    raise ValueError("No value was provided.")
 
 # The validate_longitude function checks whether the longitude value inserted
 # is within the range -180 and +180 degrees and whether it is a float or int.
@@ -42,19 +40,18 @@ def validate_longitude(longitude):
 
     # If the longitude value is provided, check whether it is a float or int
     # and that it is within range.
-    if longitude != "" and longitude is not None:    
+    if longitude != "" and longitude is not None:
         try:
             longitude_float = float(longitude)
         except ValueError as ex:
-            raise TypeError(f"Is required a int or float value of longitude, it's provided {type(longitude)}") from ex
-        else:
-            if not abs(longitude_float) <= 180.0:
-                raise ValueError(f"The longitude value is not within a valid range. \
-                                Valid values are between -180 and +180 degrees. \
-                                The value provided is {longitude_float}")
-            return longitude_float
-    else:
-        raise ValueError("No value was provided.")
+            raise TypeError(f"Is required a int or float value of longitude, "
+                            f"it's provided {type(longitude)}") from ex
+        if not abs(longitude_float) <= 180.0:
+            raise ValueError(f"The longitude value is not within a valid range. "
+                             f"Valid values are between -180 and +180 degrees. "
+                             f"The value provided is {longitude_float}")
+        return longitude_float
+    raise ValueError("No value was provided.")
 
 # The validate_name function validates whether the name entered is a string.
 def validate_name(name):
@@ -63,8 +60,8 @@ def validate_name(name):
     Otherwise, including if no value is provided, an exception is raised."""
     if name != "" and name is not None:
         if not isinstance(name, str):
-            raise TypeError(f"Is required a string \
-                                    it's provided {type(name)}")
+            raise TypeError(f"Is required a string, "
+                            f"it's provided {type(name)}")
     else:
         raise ValueError("No value was provided.")
 
@@ -78,12 +75,12 @@ def validate_spaces(spaces, total_spaces):
     Otherwise, including if no value is provided, an exception is raised."""
     if spaces != "" and spaces is not None:
         if not isinstance(spaces, (int,float)):
-            raise TypeError(f"Is required a int or float value of parking spaces \
-                                    it's provided {type(spaces)}")
+            raise TypeError(f"Is required a int or float value of parking spaces, "
+                            f"it's provided {type(spaces)}")
         if not 0 <= spaces  and spaces <= total_spaces:
-            raise ValueError("""Invalid value of spaces compared to total spaces. \
-                                    The value of occuped spaces must be between 0 and \
-                                    the maximum capacity of the parking.""")
+            raise ValueError("""Invalid value of spaces compared to total spaces. "
+                             "The value of occuped spaces must be between 0 and "
+                             "the maximum capacity of the parking.""")
     else:
         raise ValueError("No value was provided.")
 
@@ -94,8 +91,8 @@ def validate_total_spaces(total_spaces):
     Otherwise, including if no value is provided, an exception is raised."""
     if total_spaces != "" and total_spaces is not None:
         if not isinstance(total_spaces, int):
-            raise TypeError(f"Is required a int value of total parking spaces \
-                                    it's provided {type(total_spaces)}")
+            raise TypeError(f"Is required a int value of total parking spaces, "
+                            f"it's provided {type(total_spaces)}")
     else:
         raise ValueError("No value was provided.")
 
@@ -106,24 +103,13 @@ def validate_parking_guid(parkig_guid):
     Otherwise, including if no value is provided, an exception is raised."""
     if parkig_guid != "" and parkig_guid is not None:
         if not isinstance(parkig_guid, str):
-            raise TypeError(f"Is required a int value of parking guid \
-                                    it's provided {type(parkig_guid)}")
+            raise TypeError(f"Is required a int value of parking guid, "
+                            f"it's provided {type(parkig_guid)}")
     else:
         raise ValueError("No value was provided.")
 
-
-"""tzinfo=ZoneInfo("America/Los_Angeles")
-
-def astimezone(self, tz):
-    if self.tzinfo is tz:
-        return self
-    # Convert self to UTC, and attach the new time zone object.
-    utc = (self - self.utcoffset()).replace(tzinfo=tz)
-    # Convert from UTC to tz's local time.
-    return tz.fromutc(utc)"""
-
-# The validate_datetime function validates if the format of the date and time entered is correct.
-def validate_timestamp(datetime_obj, format_datetime = "%Y-%m-%d %H:%M:%S"):
+# The validate_timestamp function validates if the format of the date and time entered is correct.
+def validate_timestamp(datetime_obj, format_timestamp = "%Y-%m-%d %H:%M:%S"):
     """Function that validates the date and time.
     The value entered must respect the format.
     Otherwise, including if no value is provided, an exception is raised."""
@@ -131,10 +117,11 @@ def validate_timestamp(datetime_obj, format_datetime = "%Y-%m-%d %H:%M:%S"):
     if isinstance(datetime_obj, int):
         datetime_obj = datetime.fromtimestamp(datetime_obj)
     # Convert the datetime object to a string.
-    datetime_string = datetime_obj.strftime(format_datetime)
+    datetime_string = datetime_obj.strftime(format_timestamp)
     if datetime_string != "" and datetime_string is not None:
-        if not datetime.strptime(datetime_string, format_datetime):
-            raise ValueError(f"Invalid datetime format. It should be in the format '{format_datetime}.'")
+        if not datetime.strptime(datetime_string, format_timestamp):
+            raise ValueError(f"Invalid timestamp format. It should be in the format "
+                             f"'{format_timestamp}.'")
         if 1 > datetime_obj.year > 9999:
             raise ValueError("The year value is not within range.")
         # Check if the month is within range 01 and 12.
@@ -160,17 +147,16 @@ def validate_month(month):
     """Function that validates the month.
     The value entered must be within range.
     Otherwise, including if no value is provided, an exception is raised."""
-    if month != "" and month is not None:    
+    if month != "" and month is not None:
         try:
             month_as_int = int(month)
         except ValueError as ex:
-            raise TypeError(f"Is required a int value of month, it's provided {type(month)}") from ex
-        else:
-            if not 1 <= month_as_int <= 12:
-                raise ValueError("The month entered must be within the range 1 - 12.")
-            return month_as_int
-    else:
-        raise ValueError("No value was provided.")
+            raise TypeError(f"Is required a int value of month, it's provided "
+                            f"{type(month)}") from ex
+        if not 1 <= month_as_int <= 12:
+            raise ValueError("The month entered must be within the range 1 - 12.")
+        return month_as_int
+    raise ValueError("No value was provided.")
 
 # The validate_parking_choice function validates if the parking entered entered is within the range.
 def validate_parking_choice(parking):
@@ -181,45 +167,44 @@ def validate_parking_choice(parking):
         try:
             parking_as_int = int(parking)
         except ValueError as ex:
-            raise TypeError(f"Is required a int value of parking choice, it's provided {type(parking)}") from ex
-        else:
-            if not 0 <= parking_as_int <= 2:
-                raise ValueError("The parking choice entered must be within the range 0 - 2.")
-            return parking_as_int
-    else:
-        raise ValueError("No value was provided.")
-    
-# The validate_day function validates if the chosen day entered within the range.
+            raise TypeError(f"Is required a int value of parking choice, it's "
+                            f"provided {type(parking)}") from ex
+        if not 0 <= parking_as_int <= 2:
+            raise ValueError("The parking choice entered must be within the range 0 - 2.")
+        return parking_as_int
+    raise ValueError("No value was provided.")
+
+# The validate_day function validates if the chosen day entered iswithin the range.
 def validate_day(day):
     """Function that validates the day.
-    The day entered must be a int, and must be within the range 1-7..
+    The day entered must be a int, and must be within the range 1-7.
     Otherwise, including if no value is provided, an exception is raised."""
     if day != "" and day is not None:
         try:
             day_as_int = int(day)
         except ValueError as ex:
-            raise TypeError(f"Is required a int value of day choice, it's provided {type(day)}") from ex
-        else:
-            if not 0 <= day_as_int <= 2:
-                raise ValueError("The day entered must be within the range 1 - 7.")
-            return day_as_int
-    else:
-        raise ValueError("No value was provided.")
-    
+            raise TypeError(f"Is required a int value of chosen day, it's "
+                            f"provided {type(day)}") from ex
+        if not 1 <= day_as_int <= 7:
+            raise ValueError("The day entered must be within the range 1 - 7.")
+        return day_as_int
+    raise ValueError("No value was provided.")
 
-# The validate_time function validates if hour and minutes entered is within the range.
+# The validate_hour function validates if hour entered is within the range.
 def validate_hour(hour):
+    """Function that validates the hour.
+    The hour entered must be a int, and must be within the range 0-24..
+    Otherwise, including if no value is provided, an exception is raised."""
     if hour != "" and hour is not None:
         try:
             hour_as_int = int(hour)
         except ValueError as ex:
-            raise TypeError(f"Is required a int value of hour choice, it's provided {type(hour)}") from ex
-        else:
-            if not 0 <= hour_as_int <= 24:
-                raise ValueError("The hour choice entered must be within the range 0 - 24.")
-            return hour_as_int
-    else:
-        raise ValueError("No value was provided.")
+            raise TypeError(f"Is required a int value of hour choice, it's "
+                            f"provided {type(hour)}") from ex
+        if not 0 <= hour_as_int <= 24:
+            raise ValueError("The hour choice entered must be within the range 0 - 24.")
+        return hour_as_int
+    raise ValueError("No value was provided.")
 
 # The validate_format_image function validates if the chosen format is within the supported formats.
 def validate_format_image(format_image):
@@ -227,8 +212,8 @@ def validate_format_image(format_image):
     The format supported are jpg, jpeg, png, svg, pdf."""
     supported_format_image = ['jpg', 'jpeg', 'png', 'svg', 'pdf']
     if format_image.lower() not in supported_format_image:
-        raise InvalidFormatImage(f"{format_image} is an unsupported format. The formats allowed \
-                        are: jpg, jpeg, png, svg, pdf.")
+        raise InvalidFormatImage(f"{format_image} is an unsupported format. The formats allowed "
+                                 f"are: jpg, jpeg, png, svg, pdf.")
 
 # The validate_delimiter function validates if the chosen delimiter is allowed.
 def validate_delimiter(delimiter):
@@ -237,38 +222,38 @@ def validate_delimiter(delimiter):
     valid_delimiters = [',', ';', '\t', ' ']
     if delimiter is not None:
         if delimiter not in valid_delimiters:
-            raise ValueError("The chosen delimiter is not allowed. \
-                             The supported delimiter are ',', ';', '\t', ' '")
+            raise ValueError("The chosen delimiter is not allowed. "
+                             "The supported delimiter are ',', ';', '\t', ' '")
     else:
         raise ValueError("No value provided.")
 
 # The validate_file_name function validates if the chosen file name is allowed.
 def validate_file_name(name):
-    """Function that validates the name.
+    """Function that validates the file name.
     The name entered must be a string, and must not contain certain symbols.
     Otherwise, including if no value is provided, an exception is raised."""
-    # Define a regex that matches a list of unwanted symbols.
     unallowed_characters = "/<>:\"\\|?*"
     if name != "" and name is not None:
         try:
             name = str(name)
-        except TypeError as er:
+        except ValueError as er:
             raise TypeError(f"Is required a string, it's provided {type(name)}") from er
         # Check the file name for unwanted symbols.
         for character in name:
             if character in unallowed_characters:
-                raise ValueError("Il nome non è valido.")
+                raise ValueError("The name is invalid.")
     else:
         raise ValueError("No value was provided.")
 
-# The validate_free_spaces_by_time_slot validates if there is any detection of free spaces 
+# The validate_free_spaces_by_time_slot validates if there is any detection of free spaces
 # by time slot.
 def validate_free_spaces_by_time_slot(avg_free_spaces_by_time_slot):
     """Function that validates if there are free spaces in time slot."""
     if not isinstance(avg_free_spaces_by_time_slot, list) or \
         len(avg_free_spaces_by_time_slot) != 24:
         raise ValueError("Input must be a list of 24 elements, which represent the time slots.")
-    # Within the list I count the time slots without detections.
+
+    # Within the list, count the time slots without detections.
     count_zero = 0
     for i in range(24):
         if avg_free_spaces_by_time_slot[i] == 0 or avg_free_spaces_by_time_slot[i] == 0.0:
@@ -277,8 +262,8 @@ def validate_free_spaces_by_time_slot(avg_free_spaces_by_time_slot):
             raise TypeError(f"Invalid type at index {i}")
         if not 0 <= avg_free_spaces_by_time_slot[i] <= 100:
             raise ValueError(f"Invalid value at index {i}")
+
     # If all the time slots are empty, it makes no sense to print the plot.
     if count_zero == 24:
-        raise ValueError("There are no detections in all time slots. It is not possible to show the graph.")
-
-
+        raise ValueError("There are no detections in all time slots. It is not "
+                         "possible to show the graph.")

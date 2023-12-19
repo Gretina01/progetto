@@ -13,23 +13,30 @@ from utils.validations import validate_free_spaces_by_time_slot, \
 # File python that contains month and day classes.
 from constants.calendar import Month, Day
 
-
 # Define a function that creates a bar graph based on the average number of free spaces
 # in % and the time slots in a month of your choice.
 def generate_free_parks_in_hours_for_month(month: int, parking: Parking):
     """Function that creates a plot based on the chosen month."""
+    # Extrapolate the months.
     months = [data.month for data in [datetime.strptime(couple[0], "%Y-%m-%d %H:%M:%S%z") \
                                       for couple in parking.get_detections_list()]]
+
+    # Select the pairs for the chosen month.
     month_couples = [couple for couple, choose_month in zip(parking.get_detections_list(), \
                                                   months) if choose_month == month]
+
+    # Extrapolate the time slots.
     hours = [data.hour for data in [datetime.strptime(couple[0], "%Y-%m-%d %H:%M:%S%z") \
                                     for couple in month_couples]]
 
+    # Initialize a list to store occupied spaces for each time slot.
     occupied_spaces_by_time_slots = [[] for _ in range(24)]
 
+    # Populate the list with occupied spaces for each time slot.
     for couple, hour in zip(month_couples, hours):
         occupied_spaces_by_time_slots[hour].append(couple)
 
+    # Calculate the average free spaces for each time slot.
     avg_free_spaces_by_time_slot = []
     for hour in range(24):
         count = 0
@@ -41,8 +48,6 @@ def generate_free_parks_in_hours_for_month(month: int, parking: Parking):
             avg = 0
         else:
             avg = sum_parking / count
-        #print (f" media è {avg} in percentuale è {(avg/park.get_total_spaces())*100}
-        # data da {count} rilevazioni \n")
         avg_free_spaces_by_time_slot.append((avg/parking.get_total_spaces())*100)
 
     return avg_free_spaces_by_time_slot
@@ -51,19 +56,26 @@ def generate_free_parks_in_hours_for_month(month: int, parking: Parking):
 # in % and the time slots in a week day of your choice.
 def generate_free_parks_in_hours_for_day(day: int, parking: Parking):
     """Function that creates a plot based on the chosen month."""
+    # Extrapolate the days.
     days = [data.day for data in [datetime.strptime(couple[0], "%Y-%m-%d %H:%M:%S%z")\
                                   for couple in parking.get_detections_list()]]
-    # Selezioniamo le coppie del mese di dicembre
+
+    # Select the pairs for the chosen day.
     day_couples = [couple for couple, choose_day in zip(parking.get_detections_list(), days) \
                    if choose_day == day]
+
+    # Extrapolate the time slots.
     hours = [data.hour for data in [datetime.strptime(couple[0], "%Y-%m-%d %H:%M:%S%z") \
                                     for couple in day_couples]]
 
+    # Initialize a list to store occupied spaces for each time slot.
     occupied_spaces_by_time_slots = [[] for _ in range(24)]
 
+    # Populate the list with occupied spaces for each time slot.
     for couple, hour in zip(day_couples, hours):
         occupied_spaces_by_time_slots[hour].append(couple)
 
+    # Calculate the average free spaces for each time slot.
     avg_free_spaces_by_time_slot = []
     for hour in range(24):
         count = 0
@@ -75,8 +87,6 @@ def generate_free_parks_in_hours_for_day(day: int, parking: Parking):
             avg = 0
         else:
             avg = sum_parking / count
-        #print (f" media è {avg} in percentuale è {(avg/park.get_total_spaces())*100} \
-        # data da {count} rilevazioni \n")
         avg_free_spaces_by_time_slot.append((avg/parking.get_total_spaces())*100)
 
     return avg_free_spaces_by_time_slot
@@ -88,19 +98,54 @@ def generate_figure_and_plot_for_month(avg_free_spaces_by_time_slot: list, month
     try:
         validate_free_spaces_by_time_slot(avg_free_spaces_by_time_slot)
     except ValueError as value:
-        print(value)
-    except TypeError as value:
-        print(value)
+        print(f"The error is: {value}.")
+    except TypeError as typeerr:
+        print(f"The error is: {typeerr}.")
     else:
-        plt.figure(figsize = (10, 5))
+        plt.figure(figsize = (15, 10))
         plt.bar(range(24), avg_free_spaces_by_time_slot, color ='maroon',
                 width = 0.4)
 
+        # Annotate each bar with its value.
         for i, value in enumerate(avg_free_spaces_by_time_slot):
             plt.text(i, value, f"{value:.2f}%", ha='center', va='bottom')
-            plt.title(f"Number of free parking spaces per time slot in the month of {Month(month).name}")
-            plt.ylabel("Number of free places")
-            plt.xlabel("Time slot")
+            plt.title(f"Number of free parking spaces per time slot in the "
+                      f"month of {Month(month).name}")
+            plt.ylabel("Number of free spaces")
+            plt.xlabel("Time slots")
+            plt.xticks(range(24))
+        try:
+            validate_file_name(output_name_file)
+            validate_format_image(format_image)
+        except ValueError as value:
+            print(value)
+        except TypeError as value:
+            print(value)
+        else:
+            plt.savefig(f"outputs/{output_name_file}.{format_image}", format=format_image)
+        plt.show()
+
+# This function generate the figure and plot for the chosen day.
+def generate_figure_and_plot_for_day(avg_free_spaces_by_time_slot: list, day: int, \
+                                     output_name_file: str, format_image: str):
+    """Function that creates a plot based on the chosen day."""
+    try:
+        validate_free_spaces_by_time_slot(avg_free_spaces_by_time_slot)
+    except ValueError as value:
+        print(f"The error is: {value}.")
+    except TypeError as typeerr:
+        print(f"The error is: {typeerr}.")
+    else:
+        plt.figure(figsize = (15, 10))
+        plt.bar(range(24), avg_free_spaces_by_time_slot, color ='maroon',
+            width = 0.4)
+
+        for i, value in enumerate(avg_free_spaces_by_time_slot):
+            plt.text(i, value, f"{value:.2f}%", ha='center', va='bottom')
+            plt.title(f"Number of free parking spaces per time slot in "
+                      f"the day of {Day(day).name}")
+            plt.ylabel("Number of free spaces")
+            plt.xlabel("Time slots")
             plt.xticks(range(24))
 
         try:
@@ -112,39 +157,5 @@ def generate_figure_and_plot_for_month(avg_free_spaces_by_time_slot: list, month
             print(value)
         else:
             plt.savefig(f"outputs/{output_name_file}.{format_image}", format=format_image)
-
-        plt.show()
-
-# This function generate the figure and plot for the chosen day.
-def generate_figure_and_plot_for_day(avg_free_spaces_by_time_slot: list, day: int, \
-                                     output_name_file: str, format_image: str):
-    """Function that creates a plot based on the chosen day."""
-    try:
-        validate_free_spaces_by_time_slot(avg_free_spaces_by_time_slot)
-    except ValueError as value:
-        print(value)
-    except TypeError as value:
-        print(value)
-    else:
-        plt.figure(figsize = (10, 5))
-        plt.bar(range(24), avg_free_spaces_by_time_slot, color ='maroon',
-            width = 0.4)
-
-        for i, value in enumerate(avg_free_spaces_by_time_slot):
-            plt.text(i, value, f"{value:.2f}%", ha='center', va='bottom')
-            plt.title(f"Number of free parking spaces per time slot in the month of {Day(day).name}")
-            plt.ylabel("Number of free spaces")
-            plt.xlabel("Time slot")
-
-        try:
-            validate_file_name(output_name_file)
-            validate_format_image(format_image)
-        except ValueError as value:
-            print(value)
-        except TypeError as value:
-            print(value)
-        else:
-            plt.savefig(f"outputs/{output_name_file}.{format_image}", format=format_image)
-
         plt.show()
         

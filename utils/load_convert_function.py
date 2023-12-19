@@ -7,6 +7,7 @@ import os
 # The datetime module supplies classes to work with date and time. These classes provide a number
 # of functions to deal with dates, times, and time intervals.
 from datetime import datetime
+# The pytz module allows for date-time conversion and timezone calculations.
 import pytz
 # The requests module allows to send HTTP requests using Python.
 import requests
@@ -62,7 +63,8 @@ def generate_parking_list(dictionary: dict):
                 else:
                     utc_datetime = datetime.fromtimestamp(elem["properties"]["data"])
                     rome_timezone = pytz.timezone('Europe/Rome')
-                    roma_local_datetime = utc_datetime.replace(tzinfo=pytz.utc).astimezone(rome_timezone)
-                    parking.add_detection((str(roma_local_datetime), elem\
+                    rome_local_datetime = utc_datetime.replace(tzinfo=pytz.utc).astimezone\
+                        (rome_timezone)
+                    parking.add_detection((str(rome_local_datetime), elem\
                                             ["properties"]["posti_occupati"]))
     return parking_list
