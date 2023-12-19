@@ -299,21 +299,48 @@ def main():
         except ValueError as value:
             print(f"The error is: {value}.")
 
-    # Find the percentage of free parking spaces in the chosen month and hour for all parking lots.
+    counter_zero = 0
     best_park = None
     for park in parking_list:
-        if best_park is None:
-            best_park = park
-        else:
-            if generate_free_parks_in_hours_for_month(chosen_month_int, park)[chosen_hour_int] > \
-                generate_free_parks_in_hours_for_month(chosen_month_int,best_park)[chosen_hour_int]:
+        perc = generate_free_parks_in_hours_for_month(chosen_month_int, park)[chosen_hour_int]
+        if(perc == 0.0):
+            counter_zero += 1
+    if counter_zero == len(parking_list):
+        print("For the chosen month and hour all the park have not sufficient data, so we will use the average for all the months.")
+        parks_avgs = []
+        for park in parking_list:
+            sum_perc = 0
+            count_perc = 0
+            for month_i in range(1,12):
+                    perc = generate_free_parks_in_hours_for_month(month_i, park)[chosen_hour_int]
+                    if(perc != 0.0):
+                        sum_perc += perc
+                        count_perc += 1
+            avg = sum_perc/count_perc
+            parks_avgs.append((park, avg))
+        best_park = max(parks_avgs, key=lambda item:item[1])[0]
+        best_park_avg = max(parks_avgs, key=lambda item:item[1])[1]
+
+        distance = user_point.get_distance_from_this_point(best_park.get_point())
+        print(f"The best parking lot is {best_park.get_name()} with "
+            f"{best_park_avg}% (that is an average) "
+            f"of free parking spaces that is {distance} m from you.")
+                    
+    else:
+        # Find the percentage of free parking spaces in the chosen month and hour for all parking lots.
+        for park in parking_list:
+            if best_park is None:
                 best_park = park
+            else:
+                if generate_free_parks_in_hours_for_month(chosen_month_int, park)[chosen_hour_int] > \
+                    generate_free_parks_in_hours_for_month(chosen_month_int,best_park)[chosen_hour_int]:
+                    best_park = park
+        # Calculate the distance between the user and the best parking lot.
+        distance = user_point.get_distance_from_this_point(best_park.get_point())
+        print(f"The best parking lot is {best_park.get_name()} with "
+            f"{generate_free_parks_in_hours_for_month(chosen_month_int,best_park)[chosen_hour_int]}% "
+            f"of free parking spaces that is {distance} m from you.")
 
-    # Calculate the distance between the user and the best parking lot.
-    distance = user_point.get_distance_from_this_point(best_park.get_point())
-    print(f"The best parking lot is {best_park.get_name()} with "
-          f"{generate_free_parks_in_hours_for_month(chosen_month_int,best_park)[chosen_hour_int]}% "
-          f"of free parking spaces that is {distance} m from you.")
-
+    
 if __name__ == "__main__":
     main()
