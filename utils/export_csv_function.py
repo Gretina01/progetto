@@ -9,7 +9,7 @@ from utils.validations import validate_name
 
 # Function that export results in .csv file.
 def export_csv(avg_free_spaces_by_time_slot: list, output_name_file: str, parking: Parking, \
-               month: int, delimiter: str = ";"):
+               month: int, delimiter: str):
     """Function that export results data in a .csv file."""
     with open(f"outputs/{output_name_file}.csv", "w", encoding = "utf-16") as csv_file:
         print("Saving file...")
