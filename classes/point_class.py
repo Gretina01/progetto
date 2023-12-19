@@ -67,17 +67,12 @@ class Point():
             lon_user = self.get_longitude()
             lat_parking = obj.get_latitude()
             lon_parking = obj.get_longitude()
-            print(f"lat_user={lat_user} | lon_user={lon_user} | lat_parking={lat_parking} "
-                  f"| lon_parking={lon_parking}")
-
             # Convert latitude and longitude from degrees to radians.
             lat_parking, lon_parking, lat_user, lon_user = map(radians, [lat_parking, lon_parking, \
                                                                         lat_user, lon_user])
-
             # Calculate the difference of latitude and longitude.
             delta_lat = lat_user - lat_parking
             delta_lon = lon_user - lon_parking
-
             # Calculate the difference with Haversine formula.
             a = sin(delta_lat/2)**2 + cos(lat_parking) * cos(lat_user) * sin(delta_lon/2)**2
             c = 2 * asin(sqrt(a))
